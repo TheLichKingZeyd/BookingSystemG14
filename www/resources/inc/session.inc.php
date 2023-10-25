@@ -1,13 +1,16 @@
 <?php
 
 //Session for user data
+//runs if there is no session
+//attempts to start a session
 if(session_status() === PHP_SESSION_NONE){
     session_start();
 }
 
-include("Include/login.inc.php");
+include("login.inc.php");
 
 //Gather session data from login
+//Collects user data into variables for use in html documents
 $username = $_SESSION['username'];
 $forename = $_SESSION['forename'];
 $surename = $_SESSION['surename'];
@@ -21,7 +24,7 @@ function get_language_file()
 	$_SESSION['lang'] = $_GET['lang'] ?? $_SESSION['lang'];
 
 
-	return "languages/".$_SESSION['lang'].".php";
+	return "../www/resources/lan/".$_SESSION['lang'].".php";
 }
 
 //Set __ string to session language

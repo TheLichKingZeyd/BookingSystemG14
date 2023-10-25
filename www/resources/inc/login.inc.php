@@ -1,6 +1,9 @@
 <?php
 
-//POST for login 
+//POST for login
+//runs when the 'login' form is submitted
+//logs user in if input conforms to a user in the database
+//logged in users are sent to profile.php 
 if(isset($_POST['submitLogin'])){
     $username = $_POST['user'];
     $password = $_POST['pass'];
@@ -23,7 +26,9 @@ if(isset($_POST['submitLogin'])){
     }
 }
 
-//POST FOR REGISTER
+//POST FOR REGISTER -- under construction
+//runs when the 'register new user' form is submitted
+//sends form data to database, registering a new user
 if(isset($_POST['submitRegister'])){
     $usernameReg = $_POST['userReg'];
     $emailReg = $_POST['emailReg'];

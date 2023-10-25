@@ -3,8 +3,8 @@
 
 session_start();
 
-include("Include/connection.inc.php");
-include("Include/login.inc.php");
+include("resources/inc/connection.inc.php");
+include("resources/inc/login.inc.php");
 ?>
 
 <!DOCTYPE html>
