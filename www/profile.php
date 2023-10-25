@@ -1,7 +1,7 @@
 <!-- Include -->
 <?php
-include("Include/session.inc.php");
-include("Include/logout.inc.php");
+include("resources/inc/session.inc.php");
+include("resources/inc/logout.inc.php");
 ?>
 
 <!DOCTYPE html>
