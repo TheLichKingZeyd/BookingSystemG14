@@ -2,16 +2,18 @@
 
 class User{
 
-    public $UserID;
-    public $FirstName;
-    public $LastName;
-    public $IsStaff;
+    public $userID;
+    public $firstName;
+    public $lastName;
+    public $isAssistant;
+    public $email;
 
-    function __construct($UserID,$FirstName,$LastName,$IsStaff,){
-        $this->UserID = $UserID;
-        $this->FirstName = $FirstName;
-        $this->LastName = $LastName;
-        $this->IsStaff = $IsStaff;
+    function __construct( int $userID,string $firstName,string $lastName,string $email,bool $isAssistant,){
+        $this->userID = $userID;
+        $this->firstName = $firstName;
+        $this->lastName = $lastName;
+        $this->email = $email;
+        $this->isAssistant = $isAssistant;
     }
 
 };
