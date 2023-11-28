@@ -23,44 +23,59 @@ try {
   // calendar can be both used for booking and to when a TA would be available 
   // open this link to build the database
   //            http://localhost/BookingSystemG14/www/resources/lib/DataBaseCreate.php
-  $sql = "CREATE TABLE IF NOT EXISTS User (
+  $sql = "CREATE TABLE IF NOT EXISTS Users (
   UserID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   FirstName VARCHAR(50) NOT NULL,
   LastName VARCHAR(50) NOT NULL,
-  IsStaff BOOLEAN NOT NULL,
-  ProfilePicture LONGBLOB,
   email VARCHAR(50) NOT NULL,
+  IsAssistant BOOLEAN NOT NULL
   );
-  CREATE TABLE IF NOT EXISTS Thread (
+  CREATE TABLE IF NOT EXISTS Threads (
     ThreadID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY
   );
-  CREATE TABLE IF NOT EXISTS Message (
+  CREATE TABLE IF NOT EXISTS Messages (
     MsgID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     MsgTimeStamp DATETIME,
     ThreadID INT UNSIGNED NOT NULL,
     SenderID INT UNSIGNED NOT NULL,
-    CONSTRAINT FK_MessageThreadID FOREIGN KEY (ThreadID) REFERENCES Thread(ThreadID) ON DELETE CASCADE,
-    CONSTRAINT FK_MessageSenderID FOREIGN KEY (SenderID) REFERENCES User(UserID) ON DELETE CASCADE
+    CONSTRAINT FK_MessageThreadID FOREIGN KEY (ThreadID) REFERENCES Threads(ThreadID) ON DELETE CASCADE,
+    CONSTRAINT FK_MessageSenderID FOREIGN KEY (SenderID) REFERENCES Users(UserID) ON DELETE CASCADE
   );
   CREATE TABLE IF NOT EXISTS ThreadAccess (
     ThreadID INT UNSIGNED NOT NULL ,  
     ParticipantID INT UNSIGNED NOT NULL,
-    CONSTRAINT FK_AccessThreadID FOREIGN KEY (ThreadID) REFERENCES Thread(ThreadID) ON DELETE CASCADE,
-    CONSTRAINT FK_AccessParticipantID FOREIGN KEY (ParticipantID) REFERENCES User(UserID) ON DELETE CASCADE
+    CONSTRAINT FK_AccessThreadID FOREIGN KEY (ThreadID) REFERENCES Threads(ThreadID) ON DELETE CASCADE,
+    CONSTRAINT FK_AccessParticipantID FOREIGN KEY (ParticipantID) REFERENCES Users(UserID) ON DELETE CASCADE
 
   );
-  CREATE TABLE IF NOT EXISTS CALENDAR (
-    SessionID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    SessionStart DATETIME NOT NULL,
-    SessionEnd DATETIME NOT NULL,
-    SessionDescr VARCHAR(1000) DEFAULT 'No-Description',
+  CREATE TABLE IF NOT EXISTS Courses (
+    CourseID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    CourseCode VARCHAR(50) Not NULL,
+    CourseName VARCHAR(150) NOT NULL
+  );
+  CREATE TABLE IF NOT EXISTS Bookings (
+    BookingID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    CourseID INT UNSIGNED NOT NULL,
+    BookingStart DATETIME NOT NULL,
+    BookingEnd DATETIME NOT NULL,
+    BookingDescr VARCHAR(1000) DEFAULT 'No-Description',
     CreatorID INT UNSIGNED NOT NULL,
-    SessionTitle VARCHAR (150) NOT NULL,
-    CONSTRAINT FK_CalendarCreaterID FOREIGN KEY (CreatorID) REFERENCES User(UserID) ON DELETE CASCADE
-
-
+    BookingTitle VARCHAR (150) NOT NULL,
+    AssistantID INT UNSIGNED NOT NULL,
+    CONSTRAINT FK_CalendarCreaterID FOREIGN KEY (CreatorID) REFERENCES Users(UserID) ON DELETE CASCADE,
+    CONSTRAINT FK_BookingAssistantID FOREIGN KEY (AssistantID) REFERENCES Users(UserID) ON DELETE CASCADE,
+    CONSTRAINT FK_BookingCourseID FOREIGN KEY (CourseID) REFERENCES Courses(CourseID) ON DELETE CASCADE
 
   );
+  CREATE TABLE IF NOT EXISTS Availabity(
+    AvailibilityID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    AvailibilityStart DATETIME,
+    AvailibilityEnd DATETIME,
+    AssistantID INT UNSIGNED NOT NULL,
+    CONSTRAINT FK_AvailibilityUserID FOREIGN KEY (AssistantID) REFERENCES Users(UserID) ON DELETE CASCADE
+  )
+  
+
 ";
 
   // the code inside $SQL will be executed and a message will pop up letting us know that it has be succesfful incase of errors
