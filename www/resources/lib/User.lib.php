@@ -8,7 +8,7 @@ class User{
     public $isAssistant;
     public $email;
 
-    function __construct( int $userID,string $firstName,string $lastName,string $email,bool $isAssistant,){
+    function __construct(int $userID, string $firstName, string $lastName, string $email, bool $isAssistant){
         $this->userID = $userID;
         $this->firstName = $firstName;
         $this->lastName = $lastName;
