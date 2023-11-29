@@ -1,9 +1,9 @@
 <?php
 
 include_once 'connection.inc.php';
-include 'lib/validator.lib.php';
-include 'lib/user.lib.php';
-include 'lib/encrypter.lib.php';
+include __DIR__ . '/../lib/validator.lib.php';
+include __DIR__ . '/../lib/user.lib.php';
+include __DIR__ . '/../lib/encrypter.lib.php';
 
 //POST FOR REGISTER -- under construction
 //runs when the 'register new user' form is submitted

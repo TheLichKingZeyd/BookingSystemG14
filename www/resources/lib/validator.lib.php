@@ -19,7 +19,8 @@ class Validator{
     }
 
     public function validatePassword(string $pass){
-        $pass = cleanString($pass);
+        $validator = new Validator;
+        $pass = $validator->cleanString($pass);
         if(preg_match("/\S{9,}/", $pass)) {
             $errors = array();
             // runs if input does not contain a capitalized letter from A to Z

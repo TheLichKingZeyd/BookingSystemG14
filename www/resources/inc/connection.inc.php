@@ -2,7 +2,7 @@
     define('DB_HOST', 'localhost');
     define('DB_USER', 'root');
     define('DB_PASS', '');
-    define('DB_NAME', 'bookingsystem');
+    define('DB_NAME', 'bsg14');
     $dsn = 'mysql:dbname=' . DB_NAME . ';host=' . DB_HOST; // Driver settes her
 
     try {

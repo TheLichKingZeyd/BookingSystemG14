@@ -26,26 +26,11 @@ if(isset($_POST['submitLogin']) && is_string($_POST['user']) && $_POST['pass']){
         $_SESSION['firstname'] = $user['FirstName'];
         $_SESSION['lastname'] = $user['LastName'];
         $_SESSION['email'] = $user['Email'];
-        $_SESSION['usertpye'] = $user['IsAssistant'];
+        $_SESSION['usertype'] = $user['IsAssistant'];
         header("Location:profile.php");
     }
     else {
         echo '<script>window.location.href = "index.php"; alert("Login failed. Invalid username or password")</script>';
     }
 }
-
-//POST FOR REGISTER -- under construction
-//runs when the 'register new user' form is submitted
-//sends form data to database, registering a new user
-if(isset($_POST['submitRegister'])){
-    $usernameReg = $_POST['userReg'];
-    $emailReg = $_POST['emailReg'];
-    $passwordReg = $_POST['passReg'];
-    $errormsg = "";
-
-    $sqlReg = "INSERT INTO `user`(`username`, `email`, `password`) VALUES ('$usernameReg', '$emailReg', '$passwordReg' )";
-    $query = mysqli_query($conn, $sqlReg);
-    header("Location:index.php");
-}
-
 ?>
