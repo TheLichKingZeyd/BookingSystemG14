@@ -3,11 +3,12 @@
 include_once 'connection.inc.php';
 include 'lib/validator.lib.php';
 include 'lib/user.lib.php';
+include 'lib/encrypter.lib.php';
 
 //POST FOR REGISTER -- under construction
 //runs when the 'register new user' form is submitted
 //sends form data to database, registering a new user
-if(isset($_POST['submitRegister']) && is_string($_POST['passReg']) && is_string($_POST['emailReg']) && is_string($_POST['firstNameReg']) && is_string($_POST['lastNameReg'])){
+if(isset($_POST['submitRegister']) && is_string($_POST['passReg']) && is_string($_POST['emailReg']) && is_string($_POST['firstNameReg']) && is_string($_POST['lastNameReg']) && is_string($_POST['roleReg'])){
     $validator = new Validator;
     $firstName = ucfirst(strtolower($validator->cleanString($_POST['firstNameReg'])));
     $lastName = ucfirst(strtolower($validator->cleanString($_POST['lastNameReg'])));
@@ -17,29 +18,29 @@ if(isset($_POST['submitRegister']) && is_string($_POST['passReg']) && is_string(
     } else {
         // WRITE ERROR STUFF
     }
-    $password = $validator->validePassword($_POST['passReg']);
+    $encrypter = new Encrypter;
+    $password = $validator->validatePassword($_POST['passReg']);
+    if ($validator->cleanString($_POST['roleReg']) == "Assistant"){
+        $isAssistant = true;
+    } elseif ($validator->cleanString($_POST['roleReg']) == "Student"){
+        $isAssistant = false;
+    }
 
-    $sqlFetchUser = "SELECT * FROM users WHERE Email = '$email' AND password = '$password'";
-    $query = $pdo->prepare($sqlFetchUser);
+    $newUser = new User($userNumber, $firstName, $lastName, $email, $password, $isAssistant);
+    $sqlInsertUser = "INSERT INTO users (UserID, FirstName, LastName, Email, IsAssistant, Password) VALUES (:userID, :firstName, :lastName, :email, :isAssistant, :password)";
+    $query = $pdo->prepare($sqlInsertUser);
+    $query->bindParam(":userID", $newUser->userID, PDO::PARAM_INT);
+    $query->bindParam(":firstName", $newUser->firstName, PDO::PARAM_STR);
+    $query->bindParam(":lastName", $newUser->lastName, PDO::PARAM_STR);
+    $query->bindParam(":email", $newUser->email, PDO::PARAM_STR);
+    $query->bindParam(":isAssistant", $newUser->isAssistant, PDO::PARAM_BOOL);
+    $query->bindParam(":password", $newUser->password, PDO::PARAM_STR);
 
     try {
         $query->execute();
+        header("Location:index.php");
     } catch(PDOException $exc){
         $errormsg = $exc;
-    }
-
-    $user = $query->fetch(PDO::FETCH_OBJ);
-
-    if($query->rowCount() == 1){
-        $_SESSION['username'] = $username;
-        $_SESSION['firstname'] = $user['FirstName'];
-        $_SESSION['lastname'] = $user['LastName'];
-        $_SESSION['email'] = $user['Email'];
-        $_SESSION['usertpye'] = $user['IsAssistant'];
-        header("Location:profile.php");
-    }
-    else {
-        echo '<script>window.location.href = "index.php"; alert("Login failed. Invalid username or password")</script>';
     }
 }
 
