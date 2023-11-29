@@ -18,7 +18,7 @@ class Validator{
         }
     }
 
-    public function validePassword(string $pass){
+    public function validatePassword(string $pass){
         $pass = cleanString($pass);
         if(preg_match("/\S{9,}/", $pass)) {
             $errors = array();
@@ -36,14 +36,13 @@ class Validator{
             }
 
             if ($errors){
-                // runs if one or more of password cases runs
-                $error = "'$pass' is not a valid password.";
-                displayErrorMessage($error);
+                // WRITE ERRORCODE
             } else {
                 // runs if none of the password cases runs
                 return $pass;
             }
+        }
     }
-};
+}
 
 ?>
