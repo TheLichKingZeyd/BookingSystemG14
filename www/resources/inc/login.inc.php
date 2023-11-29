@@ -1,24 +1,32 @@
 <?php
 
+include_once 'connection.inc.php';
+
 //POST for login
 //runs when the 'login' form is submitted
 //logs user in if input conforms to a user in the database
 //logged in users are sent to profile.php 
-if(isset($_POST['submitLogin'])){
+if(isset($_POST['submitLogin']) && is_string($_POST['user']) && $_POST['pass']){
     $username = $_POST['user'];
     $password = $_POST['pass'];
-    $errormsg = "";
 
-    $sqlLog = "SELECT * FROM user WHERE username = '$username' AND password = '$password'";
-    $result = mysqli_query($conn, $sqlLog);
-    $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-    $count = mysqli_num_rows($result);
+    $sqlFetchUser = "SELECT * FROM user WHERE Email = '$username' AND password = '$password'";
+    $query = $pdo->prepare($sqlFetchUser);
 
-    if($count==1){
+    try {
+        $query->execute();
+    } catch(PDOException $exc){
+        $errormsg = $exc;
+    }
+
+    $user = $query->fetch(PDO::FETCH_OBJ);
+
+    if($query->rowCount() == 1){
         $_SESSION['username'] = $username;
-        $_SESSION['forename'] = $row['forename'];
-        $_SESSION['surename'] = $row['surename'];
-        $_SESSION['email'] = $row['email'];
+        $_SESSION['firstname'] = $user['FirstName'];
+        $_SESSION['lastname'] = $user['LastName'];
+        $_SESSION['email'] = $user['Email'];
+        $_SESSION['usertpye'] = $user['IsAssistant'];
         header("Location:profile.php");
     }
     else {
@@ -37,8 +45,7 @@ if(isset($_POST['submitRegister'])){
 
     $sqlReg = "INSERT INTO `user`(`username`, `email`, `password`) VALUES ('$usernameReg', '$emailReg', '$passwordReg' )";
     $query = mysqli_query($conn, $sqlReg);
-    $_SESSION['username'] = $username;
-    header("Location:profile.php");
+    header("Location:index.php");
 }
 
 ?>

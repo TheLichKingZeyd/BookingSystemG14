@@ -1,16 +1,13 @@
 <?php
-//Connection for database
-$servername = "localhost";
-$username = "root";
-$password = "";
-$db_name = "bookingsystem";
-$conn = new mysqli($servername, $username, $password, $db_name, 3306);
+    define('DB_HOST', 'localhost');
+    define('DB_USER', 'root');
+    define('DB_PASS', '');
+    define('DB_NAME', 'bookingsystem');
+    $dsn = 'mysql:dbname=' . DB_NAME . ';host=' . DB_HOST; // Driver settes her
 
-//Check if connection failed or succeeded
-if($conn->connect_error){
-    die("Connection failed".$conn->connect_error);
-} else {
-    echo "DB Connection: Success";
-}
-
+    try {
+        $pdo = new PDO($dsn, DB_USER, DB_PASS);
+    } catch (PDOException $e) {
+        echo "Error connecting to database: " . $e->getMessage(); // Aldri gjør dette i produksjon!
+    }
 ?>
