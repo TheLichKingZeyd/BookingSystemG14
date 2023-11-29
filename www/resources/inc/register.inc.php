@@ -46,7 +46,7 @@ if(isset($_POST['submitRegister']) && is_string($_POST['passReg']) && is_string(
 
 function generateUserNumber(){
     include_once 'connection.inc.php';
-    $sqlFetchUsers = "SELECT * FROM users";
+    $sqlFetchUsers = "SELECT MAX(UserID) FROM users";
     $query = $pdo->prepare($sqlFetchUsers);
 
     try {
@@ -55,16 +55,11 @@ function generateUserNumber(){
         $errormsg = $exc;
     }
 
-    $users = $query->fetchAll(PDO::FETCH_OBJ);
+    $userID = $query->fetchColumn();
     if ($query->rowCount()==0){
         return 100000;
     } elseif ($query->rowCount() > 0){
-        $userNumber = 100000;
-        foreach($users as $user){
-           if ($userNumber == $user->userNumber){
-                $userNumber++;
-           }
-        }
+        $userNumber = $userID + 1;
         return $userNumber;
     }
 
