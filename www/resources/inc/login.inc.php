@@ -1,20 +1,20 @@
 <?php
 
 include_once 'connection.inc.php';
-include __DIR__ . '/../lib/validator.lib.php';
-include __DIR__ . '/../lib/encrypter.lib.php';
+include_once __DIR__ . '/../lib/validator.lib.php';
+include_once __DIR__ . '/../lib/encrypter.lib.php';
 
 //POST for login
 //runs when the 'login' form is submitted
 //logs user in if input conforms to a user in the database
 //logged in users are sent to profile.php 
 if(isset($_POST['submitLogin']) && is_string($_POST['email']) && $_POST['password']){
-    $validator = new Validator;
+    $loginValidator = new Validator;
     $encrypter = new Encrypter;
-    if ($validator->validateEmail($validator->cleanString($_POST['email']))){
-        $email = $validator->cleanString($_POST['email']);
+    if ($loginValidator->validateEmail($loginValidator->cleanString($_POST['email']))){
+        $email = $loginValidator->cleanString($_POST['email']);
     }
-    $password = $encrypter->encryptStringXOR($validator->cleanString($_POST['password']));
+    $password = $encrypter->encryptStringXOR($loginValidator->cleanString($_POST['password']));
 
     $sqlFetchUser = "SELECT * FROM user WHERE Email = '$email' AND Password = '$password'";
     $query = $pdo->prepare($sqlFetchUser);

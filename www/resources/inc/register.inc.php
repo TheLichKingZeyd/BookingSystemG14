@@ -1,30 +1,30 @@
 <?php
 
 include_once 'connection.inc.php';
-include __DIR__ . '/../lib/validator.lib.php';
-include __DIR__ . '/../lib/user.lib.php';
-include __DIR__ . '/../lib/encrypter.lib.php';
+include_once __DIR__ . '/../lib/validator.lib.php';
+include_once __DIR__ . '/../lib/user.lib.php';
+include_once __DIR__ . '/../lib/encrypter.lib.php';
 
 //POST FOR REGISTER -- under construction
 //runs when the 'register new user' form is submitted
 //sends form data to database, registering a new user
 if(isset($_POST['submitRegister']) && is_string($_POST['passReg']) && is_string($_POST['emailReg']) && is_string($_POST['firstNameReg']) && is_string($_POST['lastNameReg']) && is_string($_POST['roleReg'])){
-    $validator = new Validator;
-    $firstName = ucfirst(strtolower($validator->cleanString($_POST['firstNameReg'])));
-    $lastName = ucfirst(strtolower($validator->cleanString($_POST['lastNameReg'])));
+    $regValidator = new Validator;
+    $firstName = ucfirst(strtolower($regValidator->cleanString($_POST['firstNameReg'])));
+    $lastName = ucfirst(strtolower($regValidator->cleanString($_POST['lastNameReg'])));
     $userNumber = generateUserNumber();
-    if ($validator->validateEmail($validator->cleanString($_POST['emailReg']))){
-        $email = $validator->cleanString($_POST['emailReg']);
+    if ($regValidator->validateEmail($regValidator->cleanString($_POST['emailReg']))){
+        $email = $regValidator->cleanString($_POST['emailReg']);
     } else {
         echo '<script>window.location.href = "index.php"; alert("Invalid e-mail")</script>';
     }
     $encrypter = new Encrypter;
-    if ($validator->validatePassword($validator->cleanString($_POST['passReg']))){
-        $password = $validator->cleanString($_POST['passReg']);
+    if ($regValidator->validatePassword($regValidator->cleanString($_POST['passReg']))){
+        $password = $regValidator->cleanString($_POST['passReg']);
     }
-    if ($validator->cleanString($_POST['roleReg']) == "Assistant"){
+    if ($regValidator->cleanString($_POST['roleReg']) == "Assistant"){
         $isAssistant = true;
-    } elseif ($validator->cleanString($_POST['roleReg']) == "Student"){
+    } elseif ($regValidator->cleanString($_POST['roleReg']) == "Student"){
         $isAssistant = false;
     }
 
