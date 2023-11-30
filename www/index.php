@@ -5,6 +5,7 @@ session_start();
 
 include("resources/inc/connection.inc.php");
 include("resources/inc/login.inc.php");
+include("resources/inc/register.inc.php");
 ?>
 
 <!DOCTYPE html>
@@ -71,7 +72,10 @@ include("resources/inc/login.inc.php");
             <form method="POST" action="">
               <h1>Create Account</h1>
               <div>
-                <input type="text" name="userReg" class="form-control" placeholder="Username" required="" />
+                <input type="text" name="firstNameReg" class="form-control" placeholder="First name" required="" />
+              </div>
+              <div>
+                <input type="text" name="lastNameReg" class="form-control" placeholder="Last name" required="" />
               </div>
               <div>
                 <input type="email" name="emailReg" class="form-control" placeholder="Email" required="" />
@@ -79,7 +83,12 @@ include("resources/inc/login.inc.php");
               <div>
                 <input type="password" name="passReg" class="form-control" placeholder="Password" required="" />
               </div>
-
+              <div>
+                <select type="text" name="roleReg" class="form-control"  required="">
+                  <option value="Student">Student</option>
+                  <option value="Assistant">Assistant</option>
+                </select>
+              </div>
               <button type="submit" name="submitRegister">Register</button>
 
               <div class="clearfix"></div>
