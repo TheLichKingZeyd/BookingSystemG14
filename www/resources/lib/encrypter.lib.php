@@ -2,8 +2,6 @@
 
 class Encrypter{
 
-    public $encryptionKey = "Something"; // string used as encryption key
-
     /*
         Encrypts a received string using an XOR algorithm
         by looping through each character in the string to be encrypted: "toEncrypt"
@@ -16,7 +14,7 @@ class Encrypter{
         encrypted string will show as a series of 2 digit hexadecimal values in order
     */
     public function encryptStringXOR(string $toEncrypt){
-        global $encryptionKey;
+        $encryptionKey = "Something";
         $encryptedString = "";
         $j = 0;
         for ($i = 0; $i < strlen($toEncrypt); $i++){
@@ -45,7 +43,7 @@ class Encrypter{
         return output string
     */
     public function decryptStringXOR(string $toDecrypt){
-        global $encryptionKey;
+        $encryptionKey = "Something";
         $toDecryptArray = explode(" ", trim(chunk_split($toDecrypt, 2, " ")));
         $decryptedString = "";
         $j = 0;
