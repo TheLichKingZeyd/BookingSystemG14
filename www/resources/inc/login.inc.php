@@ -8,7 +8,7 @@ include_once __DIR__ . '/../lib/encrypter.lib.php';
 //runs when the 'login' form is submitted
 //logs user in if input conforms to a user in the database
 //logged in users are sent to profile.php 
-if(isset($_POST['submitLogin']) && is_string($_POST['email']) && $_POST['password']){
+if(isset($_POST['submitLogin']) && is_string($_POST['email']) && is_string($_POST['password'])){
     $loginValidator = new Validator;
     $encrypter = new Encrypter;
     if ($loginValidator->validateEmail($loginValidator->cleanString($_POST['email']))){
