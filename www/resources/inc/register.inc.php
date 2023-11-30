@@ -12,7 +12,6 @@ if(isset($_POST['submitRegister']) && is_string($_POST['passReg']) && is_string(
     $regValidator = new Validator;
     $firstName = ucfirst(strtolower($regValidator->cleanString($_POST['firstNameReg'])));
     $lastName = ucfirst(strtolower($regValidator->cleanString($_POST['lastNameReg'])));
-    $userNumber = generateUserNumber();
     if ($regValidator->validateEmail($regValidator->cleanString($_POST['emailReg']))){
         $email = $regValidator->cleanString($_POST['emailReg']);
     } else {
@@ -28,10 +27,10 @@ if(isset($_POST['submitRegister']) && is_string($_POST['passReg']) && is_string(
         $isAssistant = false;
     }
 
-    $newUser = new User($userNumber, $firstName, $lastName, $email, $password, $isAssistant);
-    $sqlInsertUser = "INSERT INTO users (UserID, FirstName, LastName, Email, IsAssistant, Password) VALUES (:userID, :firstName, :lastName, :email, :isAssistant, :password)";
+    $newUser = new User();
+    $newUser->createNewUser($firstName, $lastName, $email, $password, $isAssistant);
+    $sqlInsertUser = "INSERT INTO users (FirstName, LastName, Email, IsAssistant, Password) VALUES (:firstName, :lastName, :email, :isAssistant, :password)";
     $query = $pdo->prepare($sqlInsertUser);
-    $query->bindParam(":userID", $newUser->userID, PDO::PARAM_INT);
     $query->bindParam(":firstName", $newUser->firstName, PDO::PARAM_STR);
     $query->bindParam(":lastName", $newUser->lastName, PDO::PARAM_STR);
     $query->bindParam(":email", $newUser->email, PDO::PARAM_STR);
@@ -45,27 +44,5 @@ if(isset($_POST['submitRegister']) && is_string($_POST['passReg']) && is_string(
         $errormsg = $exc;
     }
 }
-
-function generateUserNumber(){
-    include_once 'connection.inc.php';
-    $sqlFetchUsers = "SELECT MAX(UserID) FROM users";
-    $query = $pdo->prepare($sqlFetchUsers);
-
-    try {
-        $query->execute();
-    } catch(PDOException $exc){
-        $errormsg = $exc;
-    }
-
-    $userID = $query->fetchColumn();
-    if ($query->rowCount()==0){
-        return 100000;
-    } elseif ($query->rowCount() > 0){
-        $userNumber = $userID + 1;
-        return $userNumber;
-    }
-
-}
-
 
 ?>
