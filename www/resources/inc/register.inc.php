@@ -13,13 +13,15 @@ if(isset($_POST['submitRegister']) && is_string($_POST['passReg']) && is_string(
     $firstName = ucfirst(strtolower($validator->cleanString($_POST['firstNameReg'])));
     $lastName = ucfirst(strtolower($validator->cleanString($_POST['lastNameReg'])));
     $userNumber = generateUserNumber();
-    if ($validator->validateEmail($_POST['emailReg'])){
-        $email = $_POST['emailReg'];
+    if ($validator->validateEmail($validator->cleanString($_POST['emailReg']))){
+        $email = $validator->cleanString($_POST['emailReg']);
     } else {
-        // WRITE ERROR STUFF
+        echo '<script>window.location.href = "index.php"; alert("Invalid e-mail")</script>';
     }
     $encrypter = new Encrypter;
-    $password = $validator->validatePassword($_POST['passReg']);
+    if ($validator->validatePassword($validator->cleanString($_POST['passReg']))){
+        $password = $validator->cleanString($_POST['passReg']);
+    }
     if ($validator->cleanString($_POST['roleReg']) == "Assistant"){
         $isAssistant = true;
     } elseif ($validator->cleanString($_POST['roleReg']) == "Student"){

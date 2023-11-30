@@ -36,7 +36,7 @@ if(isset($_POST['submitLogin']) && is_string($_POST['email']) && $_POST['passwor
         header("Location:profile.php");
     }
     else {
-        echo '<script>window.location.href = "index.php"; alert("Login failed. Invalid e-mail or password")</script>';
+        echo '<script>window.location.href = "index.php"; alert("Login failed. Invalid e-mail or password.")</script>';
     }
 }
 ?>
