@@ -14,7 +14,6 @@ if(isset($_POST['submitLogin']) && is_string($_POST['email']) && $_POST['passwor
     if ($validator->validateEmail($validator->cleanString($_POST['email']))){
         $email = $validator->cleanString($_POST['email']);
     }
-    
     $password = $encrypter->encryptStringXOR($validator->cleanString($_POST['password']));
 
     $sqlFetchUser = "SELECT * FROM user WHERE Email = '$email' AND Password = '$password'";

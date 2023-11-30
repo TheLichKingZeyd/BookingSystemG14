@@ -11,7 +11,6 @@ include("login.inc.php");
 
 //Gather session data from login
 //Collects user data into variables for use in html documents
-$username = $_SESSION['username'];
 $firstname = $_SESSION['firstname'];
 $lastname = $_SESSION['lastname'];
 $email = $_SESSION['email'];
