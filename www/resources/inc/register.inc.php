@@ -20,7 +20,7 @@ if(isset($_POST['submitRegister']) && is_string($_POST['passReg']) && is_string(
     }
     $encrypter = new Encrypter;
     if ($regValidator->validatePassword($regValidator->cleanString($_POST['passReg']))){
-        $password = $regValidator->cleanString($_POST['passReg']);
+        $password = $encrypter->encryptStringXOR($regValidator->cleanString($_POST['passReg']));
     }
     if ($regValidator->cleanString($_POST['roleReg']) == "Assistant"){
         $isAssistant = true;
@@ -47,7 +47,7 @@ if(isset($_POST['submitRegister']) && is_string($_POST['passReg']) && is_string(
 }
 
 function generateUserNumber(){
-    include_once 'connection.inc.php';
+    global $pdo;
     $sqlFetchUsers = "SELECT MAX(UserID) FROM users";
     $query = $pdo->prepare($sqlFetchUsers);
 
@@ -59,7 +59,7 @@ function generateUserNumber(){
 
     $userID = $query->fetchColumn();
     if ($query->rowCount()==0){
-        return 100000;
+        return 100001;
     } elseif ($query->rowCount() > 0){
         $userNumber = $userID + 1;
         return $userNumber;

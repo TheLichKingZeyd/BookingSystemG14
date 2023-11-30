@@ -16,7 +16,7 @@ if(isset($_POST['submitLogin']) && is_string($_POST['email']) && $_POST['passwor
     }
     $password = $encrypter->encryptStringXOR($loginValidator->cleanString($_POST['password']));
 
-    $sqlFetchUser = "SELECT * FROM user WHERE Email = '$email' AND Password = '$password'";
+    $sqlFetchUser = "SELECT * FROM users WHERE Email = '$email' AND Password = '$password'";
     $query = $pdo->prepare($sqlFetchUser);
 
     try {
@@ -28,10 +28,10 @@ if(isset($_POST['submitLogin']) && is_string($_POST['email']) && $_POST['passwor
     $user = $query->fetch(PDO::FETCH_OBJ);
 
     if($query->rowCount() == 1){
-        $_SESSION['firstname'] = $user['FirstName'];
-        $_SESSION['lastname'] = $user['LastName'];
-        $_SESSION['email'] = $user['Email'];
-        $_SESSION['usertype'] = $user['IsAssistant'];
+        $_SESSION['firstname'] = $user->FirstName;
+        $_SESSION['lastname'] = $user->LastName;
+        $_SESSION['email'] = $user->Email;
+        $_SESSION['usertype'] = $user->IsAssistant;
         header("Location:profile.php");
     }
     else {

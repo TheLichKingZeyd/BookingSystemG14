@@ -44,10 +44,10 @@ include("resources/inc/register.inc.php");
             <form method="POST" action="">
               <h1>Login Form</h1>
               <div>
-                <input type="text" name="user" class="form-control" placeholder="Username"/>
+                <input type="text" name="email" class="form-control" placeholder="E-mail"/>
               </div>
               <div>
-                <input type="password" name="pass" class="form-control" placeholder="Password"/>
+                <input type="password" name="password" class="form-control" placeholder="Password"/>
               </div>
 
               <button type="submit" name="submitLogin">Login</button>
