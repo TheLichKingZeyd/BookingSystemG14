@@ -44,10 +44,10 @@ include("resources/inc/register.inc.php");
             <form method="POST" action="">
               <h1>Login Form</h1>
               <div>
-                <input type="text" name="user" class="form-control" placeholder="Username"/>
+                <input type="text" name="email" class="form-control" placeholder="E-mail"/>
               </div>
               <div>
-                <input type="password" name="pass" class="form-control" placeholder="Password"/>
+                <input type="password" name="password" class="form-control" placeholder="Password"/>
               </div>
 
               <button type="submit" name="submitLogin">Login</button>
@@ -78,7 +78,7 @@ include("resources/inc/register.inc.php");
                 <input type="text" name="lastNameReg" class="form-control" placeholder="Last name" required="" />
               </div>
               <div>
-                <input type="email" name="emailReg" class="form-control" placeholder="Email" required="" />
+                <input type="email" name="emailReg" class="form-control" placeholder="E-mail" required="" />
               </div>
               <div>
                 <input type="password" name="passReg" class="form-control" placeholder="Password" required="" />

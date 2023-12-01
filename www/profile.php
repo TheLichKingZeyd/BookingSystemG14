@@ -46,7 +46,7 @@ include("resources/inc/logout.inc.php");
               </div>
               <div class="profile_info">
                 <span><?= __('Welcome!')?></span>
-                <h2><?php echo $username; ?></h2>
+                <h2><?php echo $firstName . " " . $lastName; ?></h2>
               </div>
             </div>
             <!-- /menu profile quick info -->
@@ -74,13 +74,22 @@ include("resources/inc/logout.inc.php");
                   <li><a href="messages.php"><i class="fa fa-comments-o"></i> <?= __('Messages')?></span></a></li>
                 </ul>
               </div>
+
+              <?php  
+                if ($userType){
+              ?>
+              
               <div class="menu_section">
                 <h3><?= __('Assisant Teacher tools')?></h3>
                 <ul class="nav side-menu">
-                  <li><a href="admin.booking.php" ><i class="fa fa-bug"></i> <?= __('Check bookings')?></a></li>
-                  <li><a href="admin.calendar.php" ><i class="fa fa-calendar"></i> <?= __('Edit Calendar')?></a></li>
+                  <li><a href="assistant.bookings.php" ><i class="fa fa-bug"></i> <?= __('Check bookings')?></a></li>
+                  <li><a href="assistant.calendars.php" ><i class="fa fa-calendar"></i> <?= __('Edit Calendar')?></a></li>
                 </ul>
               </div>
+              
+              <?php
+                }
+              ?>             
 
             </div>
             <!-- /sidebar menu -->
@@ -117,7 +126,7 @@ include("resources/inc/logout.inc.php");
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <img src="../node_modules/gentelella/production/images/user.png" alt=""><?php echo $username; ?>
+                    <img src="../node_modules/gentelella/production/images/user.png" alt=""><?php echo $firstName . " " . $lastName; ?>
                     <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
@@ -232,7 +241,7 @@ include("resources/inc/logout.inc.php");
                           <img class="img-responsive avatar-view" src="../node_modules/gentelella/production/images/user.png" alt="Avatar" title="Change the avatar">
                         </div>
                       </div>
-                      <h3><?php echo "$forename $surename"; ?></h3>
+                      <h3><?php echo $firstName . " " . $lastName; ?></h3>
 
                       <ul class="list-unstyled user_data">
 
