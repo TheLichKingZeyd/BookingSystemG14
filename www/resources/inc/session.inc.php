@@ -14,6 +14,7 @@ include("login.inc.php");
 $firstName = $_SESSION['firstname'];
 $lastName = $_SESSION['lastname'];
 $email = $_SESSION['email'];
+$userID = $_SESSION['userID'];
 $userType = $_SESSION['usertype'];
 
 //Require language files in languages

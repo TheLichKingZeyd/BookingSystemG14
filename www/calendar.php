@@ -24,6 +24,10 @@ include("resources/inc/logout.inc.php");
     <!-- jQuery custom content scroller -->
     <link href="../node_modules/gentelella/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css" rel="stylesheet"/>
 
+    <!-- FullCalendar -->
+    <link href="../node_modules/gentelella/vendors/fullcalendar/dist/fullcalendar.css" rel="stylesheet">
+    <link href="../node_modules/gentelella/vendors/fullcalendar/dist/fullcalendar.print.css" rel="stylesheet" media="print">
+
     <!-- Custom Theme Style -->
     <link href="../node_modules/gentelella/build/css/custom.css" rel="stylesheet">
   </head>
@@ -213,7 +217,7 @@ include("resources/inc/logout.inc.php");
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Example</h2>
+                    <h2><?= __('Calendar')?></h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
@@ -223,7 +227,7 @@ include("resources/inc/logout.inc.php");
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-
+                    <div id='calendar'></div>
                   </div>
                 </div>
               </div>
@@ -231,6 +235,90 @@ include("resources/inc/logout.inc.php");
           </div>
         </div>
         <!-- /page content -->
+
+        <!-- calendar modal 
+    <div id="CalenderModalNew" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title" id="myModalLabel">New Calendar Entry</h4>
+          </div>
+          <div class="modal-body">
+            <div id="testmodal" style="padding: 5px 20px;">
+              <form id="antoform" class="form-horizontal calender" role="form">
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Title</label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" id="title" name="title">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Description</label>
+                  <div class="col-sm-9">
+                    <textarea class="form-control" style="height:55px;" id="descr" name="descr"></textarea>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default antoclose" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary antosubmit">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>-->
+    <div id="CalenderModalEdit" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title" id="myModalLabel2">Show Calendar Entry</h4>
+          </div>
+          <div class="modal-body">
+
+            <div id="testmodal2" style="padding: 5px 20px;">
+              <form id="antoform2" class="form-horizontal calender" role="form">
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Title</label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" id="title2" name="title2" readonly>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Description</label>
+                  <div class="col-sm-9">
+                    <textarea class="form-control" style="height:55px;" id="descr2" name="descr" readonly></textarea>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Start time</label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" id="start1" name="start1" readonly>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">End time</label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" id="end1" name="end1" readonly>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default antoclose2" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="fc_create" data-toggle="modal" data-target="#CalenderModalNew"></div>
+    <div id="fc_edit" data-toggle="modal" data-target="#CalenderModalEdit"></div>
+    <!-- /calendar modal -->
 
         <!-- footer content -->
         <footer>
@@ -252,8 +340,12 @@ include("resources/inc/logout.inc.php");
     <script src="../node_modules/gentelella/vendors/nprogress/nprogress.js"></script>
     <!-- jQuery custom content scroller -->
     <script src="../node_modules/gentelella/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
+    <!-- FullCalendar -->
+    <script src="../node_modules/gentelella/vendors/moment/min/moment.min.js"></script>
+    <script src="../node_modules/gentelella/vendors/fullcalendar/dist/fullcalendar.js"></script>
+    <script src="resources/js/calendar.js"></script>
 
     <!-- Custom Theme Scripts -->
-    <script src="../node_modules/gentelella/build/js/custom.min.js"></script>
+    <script src="../node_modules/gentelella/build/js/custom.js"></script>
   </body>
 </html>
