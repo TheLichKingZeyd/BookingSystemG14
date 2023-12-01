@@ -28,26 +28,24 @@ if(isset($_POST['submitRegister']) && is_string($_POST['passReg']) && is_string(
     } elseif ($regValidator->cleanString($_POST['roleReg']) == "Student"){
         $isAssistant = false;
     }
-    if ($firstName != null && $lastName != null && $email != null && $password != null && $isAssistant != null){
-        $newUser = new User();
-        $newUser->createNewUser($firstName, $lastName, $email, $password, $isAssistant);
-        $sqlInsertUser = "INSERT INTO users (FirstName, LastName, Email, IsAssistant, Password) VALUES (:firstName, :lastName, :email, :isAssistant, :password)";
-        $query = $pdo->prepare($sqlInsertUser);
-        $query->bindParam(":firstName", $newUser->firstName, PDO::PARAM_STR);
-        $query->bindParam(":lastName", $newUser->lastName, PDO::PARAM_STR);
-        $query->bindParam(":email", $newUser->email, PDO::PARAM_STR);
-        $query->bindParam(":isAssistant", $newUser->isAssistant, PDO::PARAM_BOOL);
-        $query->bindParam(":password", $newUser->password, PDO::PARAM_STR);
+    $newUser = new User();
+    $newUser->createNewUser($firstName, $lastName, $email, $password, $isAssistant);
+       
+    $sqlInsertUser = "INSERT INTO users (FirstName, LastName, Email, IsAssistant, Password) VALUES (:firstName, :lastName, :email, :isAssistant, :password)";
+    $query = $pdo->prepare($sqlInsertUser);
+    $query->bindParam(":firstName", $newUser->firstName, PDO::PARAM_STR);
+    $query->bindParam(":lastName", $newUser->lastName, PDO::PARAM_STR);
+    $query->bindParam(":email", $newUser->email, PDO::PARAM_STR);
+    $query->bindParam(":isAssistant", $newUser->isAssistant, PDO::PARAM_BOOL);
+    $query->bindParam(":password", $newUser->password, PDO::PARAM_STR);
 
-        try {
-            $query->execute();
-            header("Location:index.php");
-        } catch(PDOException $exc){
-            $errormsg = $exc;
-        }
+    try {
+        $query->execute();
+        header("Location:index.php");
+    } catch(PDOException $exc){
+        $errormsg = $exc;
     }
-} else {
-    echo '<script>window.location.href = "index.php"; alert("All fields must be filled.")</script>';
+    
 }
 
 ?>
