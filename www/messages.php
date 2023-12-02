@@ -46,7 +46,7 @@ include("resources/inc/logout.inc.php");
               </div>
               <div class="profile_info">
                 <span><?= __('Welcome!')?></span>
-                <h2><?php echo $username; ?></h2>
+                <h2><?php echo $firstName . " " . $lastName; ?></h2>
               </div>
             </div>
             <!-- /menu profile quick info -->
@@ -74,6 +74,11 @@ include("resources/inc/logout.inc.php");
                   <li><a href="messages.php"><i class="fa fa-comments-o"></i> <?= __('Messages')?></span></a></li>
                 </ul>
               </div>
+
+              <?php  
+                if ($userType){
+              ?>
+
               <div class="menu_section">
                 <h3><?= __('Assisant Teacher tools')?></h3>
                 <ul class="nav side-menu">
@@ -81,6 +86,10 @@ include("resources/inc/logout.inc.php");
                   <li><a href="admin.calendar.php" ><i class="fa fa-calendar"></i> <?= __('Edit Calendar')?></a></li>
                 </ul>
               </div>
+
+              <?php
+                }
+              ?>
 
             </div>
             <!-- /sidebar menu -->
@@ -117,7 +126,7 @@ include("resources/inc/logout.inc.php");
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <img src="../node_modules/gentelella/production/images/user.png" alt=""><?php echo $username; ?>
+                    <img src="../node_modules/gentelella/production/images/user.png" alt=""><?php echo $firstName . " " . $lastName; ?>
                     <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
@@ -204,7 +213,7 @@ include("resources/inc/logout.inc.php");
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Example</h2>
+                    <h2><?= __('Messages')?></h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
@@ -215,6 +224,41 @@ include("resources/inc/logout.inc.php");
                   </div>
                   <div class="x_content">
 
+                  <div class="col-md-4 col-sm-4 col-xs-12 profile_details">
+                    <?php 
+                      include 'resources/inc/getAllUsers.inc.php';
+                      foreach($brukere as $bruker) {
+                        echo '<div class="well profile_view">';
+                        echo '<div class="col-sm-12">';
+                        $isAssistant = $bruker->IsAssistant == 1 ? __('Assistant'):"Student";
+                        echo "<h4 class='brief'><i>". $isAssistant . "</i></h4>";
+                        echo '<div class="left col-xs-7">';
+                        echo "<h3>" . $bruker->FirstName . " " . $bruker->LastName ."</h3>";
+                        echo '<ul class="list-unstyled">';
+                        echo "<li><i class='fa fa-envelope-o user-profile-icon'></i> ". __('E-mail') . ": " . $bruker->Email . "</li>";
+                        echo '</ul>';
+                        echo '</div>';
+                        echo '<div class="right col-xs-5 text-center">';
+                        echo '<img src="../node_modules/gentelella/production/images/user.png" alt="" class="img-circle profile_img img-responsive">';
+                        echo '</div>';
+                        echo '</div>';
+                        echo '<div class="col-xs-12 bottom text-center">';
+                        echo '<div class="col-xs-12 col-sm-6 emphasis">';
+                        echo '</div>';
+                        echo '<div class="col-xs-12 col-sm-12 emphasis">';
+                        echo '<button type="button" class="btn btn-success btn-xs"> <i class="fa fa-user">';
+                        echo "</i> <i class='fa fa-comments-o'></i> " . __('Chat') . "</button>";
+                        echo '<button type="button" class="btn btn-primary btn-xs">';
+                        echo '<i class="fa fa-user"> </i> ' . __('View Profile');
+                        echo '</button>';
+                        echo '</div>';
+                        echo '</div>';
+                        echo '</div>';
+                      }
+                    ?>
+
+                  </div>
+                      
                   </div>
                 </div>
               </div>

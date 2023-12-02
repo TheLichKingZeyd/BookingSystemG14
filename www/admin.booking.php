@@ -74,6 +74,11 @@ include("resources/inc/logout.inc.php");
                   <li><a href="messages.php"><i class="fa fa-comments-o"></i> <?= __('Messages')?></span></a></li>
                 </ul>
               </div>
+
+              <?php  
+                if ($userType){
+              ?>
+
               <div class="menu_section">
                 <h3><?= __('Assisant Teacher tools')?></h3>
                 <ul class="nav side-menu">
@@ -81,6 +86,10 @@ include("resources/inc/logout.inc.php");
                   <li><a href="admin.calendar.php" ><i class="fa fa-calendar"></i> <?= __('Edit Calendar')?></a></li>
                 </ul>
               </div>
+
+              <?php
+                }
+              ?>
 
             </div>
             <!-- /sidebar menu -->
