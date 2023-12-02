@@ -18,7 +18,7 @@ try {
   // set the PDO error mode to exception
   $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-  // $SQL contains SQL code that is executed with exec()
+  // $SQL string contains The SQL script that is executed with exec() through the database connection thanks to PDO
   //Tables might need revisits as I have a lot of doubts regarding these unholy abominations that I created
   // calendar can be both used for booking and to when a TA would be available 
   // open this link to build the database
@@ -29,7 +29,9 @@ try {
   LastName VARCHAR(50) NOT NULL,
   Email VARCHAR(50) NOT NULL,
   IsAssistant BOOLEAN NOT NULL,
-  Password VARCHAR(255) NOT NULL
+  Password VARCHAR(256) NOT NULL,
+  AllowEmail BOOLEAN DEFAULT 1
+
   );
   CREATE TABLE IF NOT EXISTS Threads (
     ThreadID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY
@@ -74,14 +76,24 @@ try {
     AvailibilityEnd DATETIME,
     AssistantID INT UNSIGNED NOT NULL,
     CONSTRAINT FK_AvailibilityUserID FOREIGN KEY (AssistantID) REFERENCES Users(UserID) ON DELETE CASCADE
+  );
+  CREATE TABLE IF NOT EXISTS CourseAccess(
+    CourseID INT UNSIGNED NOT NULL,
+    UserID INT UNSIGNED NOT NULL,
+    CONSTRAINT FK_AccessUserID FOREIGN KEY (UserID) REFERENCES Users(UserID) ON DELETE CASCADE,
+    CONSTRAINT FK_AccessCourseID FOREIGN KEY (CourseID) REFERENCES Courses(CourseID) ON DELETE CASCADE
+  )
+  CREATE TABLE IF NOT EXISTS ProfileInfo(
+    UserID INT UNSIGNED NOT NULL,
+    ProfileExperience VARCHAR(256)
   )
   
 
 ";
 
-  // the code inside $SQL will be executed and a message will pop up letting us know that it has be succesfful incase of errors
-  //the $sql will be printed out, in addition to an error message.
-  //might need changes so we don't create new tables everytime the server is launched.
+  //  $SQL will be executed and a message will pop up letting us know that it has been succesfful incase of errors
+  //the $sql script will be printed out, in addition to an error message.
+  //might need changes tables are dropped before creation, seeding also needs to be added soon.
   //This Frankenstein solution is not the best, but it'll do for now, could revisit later for more readable errors.
   $conn->exec($sql);
   echo "Tables created successfully without errors";
