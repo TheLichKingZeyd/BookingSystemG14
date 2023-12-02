@@ -5,7 +5,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "BSG14";
+$dbname = "bsg14";
 
 //end of global variables
 
