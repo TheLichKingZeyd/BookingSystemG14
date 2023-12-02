@@ -31,6 +31,7 @@ if(isset($_POST['submitLogin']) && is_string($_POST['email']) && is_string($_POS
             $_SESSION['firstname'] = $user->FirstName;
             $_SESSION['lastname'] = $user->LastName;
             $_SESSION['email'] = $user->Email;
+            $_SESSION['userID'] = $user->UserID;
             $_SESSION['usertype'] = $user->IsAssistant;
             header("Location:profile.php");
         } else {
