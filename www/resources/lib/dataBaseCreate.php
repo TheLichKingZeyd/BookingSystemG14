@@ -4,7 +4,7 @@
 
 $servername = "localhost";
 $username = "root";
-$password = "password";
+$password = "";
 $dbname = "BSG14";
 
 //end of global variables
@@ -65,6 +65,7 @@ try {
     CreatorID INT UNSIGNED NOT NULL,
     BookingTitle VARCHAR (150) NOT NULL,
     AssistantID INT UNSIGNED NOT NULL,
+    BookingStatus BOOLEAN DEFAULT 1,
     CONSTRAINT FK_CalendarCreaterID FOREIGN KEY (CreatorID) REFERENCES Users(UserID) ON DELETE CASCADE,
     CONSTRAINT FK_BookingAssistantID FOREIGN KEY (AssistantID) REFERENCES Users(UserID) ON DELETE CASCADE,
     CONSTRAINT FK_BookingCourseID FOREIGN KEY (CourseID) REFERENCES Courses(CourseID) ON DELETE CASCADE
