@@ -2,9 +2,11 @@
 // Include database configuration file
 include('connection.inc.php');
 include('login.inc.php');
- 
-// Fetch events from database 
-$sql = "SELECT * FROM bookings";
+
+session_start();
+$userID = $_SESSION['userID'];
+// Fetch events from database
+$sql = "SELECT * FROM bookings WHERE CreatorID = $userID";
 $result = $pdo->prepare($sql);
 
 // Kjør
@@ -30,5 +32,4 @@ while($row = $result->fetch(PDO::FETCH_ASSOC)){
  
 // Render event data in JSON format 
 echo json_encode($response);
-
 ?>

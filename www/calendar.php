@@ -276,32 +276,32 @@ include("resources/inc/logout.inc.php");
 
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h4 class="modal-title" id="myModalLabel2">Show Calendar Entry</h4>
+            <h4 class="modal-title" id="myModalLabel2"><?= __('Show Calendar Entry')?></h4>
           </div>
           <div class="modal-body">
 
             <div id="testmodal2" style="padding: 5px 20px;">
               <form id="antoform2" class="form-horizontal calender" role="form">
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Title</label>
+                  <label class="col-sm-3 control-label"><?= __('Title')?></label>
                   <div class="col-sm-9">
                     <input type="text" class="form-control" id="title2" name="title2" readonly>
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Description</label>
+                  <label class="col-sm-3 control-label"><?= __('Description')?></label>
                   <div class="col-sm-9">
                     <textarea class="form-control" style="height:55px;" id="descr2" name="descr" readonly></textarea>
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Start time</label>
+                  <label class="col-sm-3 control-label"><?= __('Start time')?></label>
                   <div class="col-sm-9">
                     <input type="text" class="form-control" id="start1" name="start1" readonly>
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">End time</label>
+                  <label class="col-sm-3 control-label"><?= __('End time')?></label>
                   <div class="col-sm-9">
                     <input type="text" class="form-control" id="end1" name="end1" readonly>
                   </div>
@@ -310,7 +310,7 @@ include("resources/inc/logout.inc.php");
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-default antoclose2" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-default antoclose2" data-dismiss="modal"><?= __('Close')?></button>
           </div>
         </div>
       </div>
