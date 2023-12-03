@@ -26,6 +26,8 @@ $lang = [
 	'E-mail'=>'E-post',
 	'View Profile'=>'Se profil',
 	'Chat'=>'Prat',
+	'No messages yet, Start the conversation'=>'Ingen meldinger ennå, Start en samtale',
+	'exit'=>'lukk',
 ];
 
 ?>
