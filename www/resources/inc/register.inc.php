@@ -31,7 +31,8 @@ if(isset($_POST['submitRegister']) && is_string($_POST['passReg']) && is_string(
     $newUser = new User();
     $newUser->createNewUser($firstName, $lastName, $email, $password, $isAssistant);
        
-    $sqlInsertUser = "INSERT INTO users (FirstName, LastName, Email, IsAssistant, Password) VALUES (:firstName, :lastName, :email, :isAssistant, :password)";
+    $sqlInsertUser = "INSERT INTO users (FirstName, LastName, Email, IsAssistant, Password) 
+                      VALUES (:firstName, :lastName, :email, :isAssistant, :password)";
     $query = $pdo->prepare($sqlInsertUser);
     $query->bindParam(":firstName", $newUser->firstName, PDO::PARAM_STR);
     $query->bindParam(":lastName", $newUser->lastName, PDO::PARAM_STR);
@@ -41,7 +42,7 @@ if(isset($_POST['submitRegister']) && is_string($_POST['passReg']) && is_string(
 
     try {
         $query->execute();
-        header("Location:index.php");
+        header("Location:index.php#signin");
     } catch(PDOException $exc){
         $errormsg = $exc;
     }

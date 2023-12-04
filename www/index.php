@@ -83,13 +83,13 @@ include("resources/inc/register.inc.php");
               <div>
                 <input type="password" name="passReg" class="form-control" placeholder="Password" required="" />
               </div>
-              <div>
+              <div class="col-md-9 col-sm-9 col-xs-12">
                 <select type="text" name="roleReg" class="form-control"  required="">
                   <option value="Student">Student</option>
                   <option value="Assistant">Assistant</option>
                 </select>
               </div>
-              <button type="submit" name="submitRegister">Register</button>
+              <button class="btn btn-success" type="submit" name="submitRegister">Register</button>
 
               <div class="clearfix"></div>
 
