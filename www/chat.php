@@ -121,26 +121,6 @@ if (isset($_SESSION['userID'])) {
                   scrollDown();
       		   });
       });
-
-	/*
-	  // auto refresh / reload
-      let fechData = function(){
-      	$.post("resources/inc/getAllMessages.inc.php",
-      		   {
-      		   	id_2: <?=$chatWith['UserID']?>
-      		   },
-      		   function(data, status){
-                  $("#chatBox").append(data);
-                  if (data != "") scrollDown();
-      		    });
-      }
-
-      fechData();
-
-      auto update last seen 
-      every 0.5 sec
-      setInterval(fechData, 1000);
-	*/
     
     });
 </script>

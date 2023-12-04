@@ -84,7 +84,8 @@ try {
   );
   CREATE TABLE IF NOT EXISTS ProfileInfo(
     UserID INT UNSIGNED NOT NULL,
-    ProfileExperience VARCHAR(256)
+    ProfileExperience VARCHAR(256),
+    CONSTRAINT FK_ProfileUserID FOREIGN KEY (UserID) REFERENCES Users(UserID) ON DELETE CASCADE
   )
   
 

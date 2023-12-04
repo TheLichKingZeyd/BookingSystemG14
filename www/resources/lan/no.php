@@ -28,6 +28,16 @@ $lang = [
 	'Chat'=>'Prat',
 	'No messages yet, Start the conversation'=>'Ingen meldinger ennå, Start en samtale',
 	'exit'=>'lukk',
+	'Edit Profile'=>'Rediger Profil',
+	'Experience'=>'Erfaring',
+	' Subjects'=>' Fag',
+	'User Profile'=>'Bruker Profil',
+	'Edit Password'=>'Rediger Passord',
+	'Edit Courses'=>'Rediger Fag',
+	'Edit profile information'=>'Rediger bruker informasjon',
+	'Save changes'=>'Lagre Endringer',
+	'Close'=>'Lukk',
+	'Edit password'=>'Endre passord',
 ];
 
 ?>

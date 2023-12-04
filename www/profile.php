@@ -1,8 +1,24 @@
 <!-- Include -->
 <?php
+session_start();
 include("resources/inc/session.inc.php");
 include("resources/inc/language.inc.php");
 include("resources/inc/logout.inc.php");
+
+// If user is logged in
+if (isset($userID)) {
+
+  include 'resources/inc/getAllUserInformation.inc.php';
+  include 'resources/inc/getCourses.inc.php';
+  include 'resources/inc/getAllCourses.inc.php';
+  include 'resources/inc/updateProfile.inc.php';
+
+  // get user data (who we are messeging)
+  $userInformation = getAllUserInformation($userID, $pdo);
+  $coursename = getCourses($userID, $pdo);
+  $allCourses = getAllCourses($pdo);
+  $messageOutput = $_messageOutput['message'];
+
 ?>
 
 <!DOCTYPE html>
@@ -157,7 +173,7 @@ include("resources/inc/logout.inc.php");
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>User Profile</h2>
+                    <h2><?= __('User Profile')?></h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
@@ -183,50 +199,161 @@ include("resources/inc/logout.inc.php");
                           <img class="img-responsive avatar-view" src="../node_modules/gentelella/production/images/user.png" alt="Avatar" title="Change the avatar">
                         </div>
                       </div>
-                      <h3><?php echo $firstName . " " . $lastName; ?></h3>
+                      <h3><?php echo $userInformation['FirstName'] . " " . $userInformation['LastName']; ?></h3>
 
                       <ul class="list-unstyled user_data">
 
                         <li>
-                          <i class="fa fa-envelope-o user-profile-icon"></i><?php echo " $email"; ?>
+                          <i class="fa fa-envelope-o user-profile-icon"></i><?php echo " ".$userInformation['Email']; ?>
+                        </li>
+                        <li>
+                          <i class="fa fa-user user-profile-icon"></i><?php $isAssistant = $userInformation['IsAssistant'] == 1 ? __('Assistant'):"Student"; echo " $isAssistant"; ?>
+                        </li>
+                        <li>
+                          <i class="fa fa-book user-profile-icon"></i><?= __(' Subjects')?>
+                          <?php
+                          echo "<ul>";
+                          for ($row = 0; $row < count($coursename); $row++) {
+                            for ($col = 0; $col < 1; $col++) {
+                              $courseAff = $coursename[$row][2] == 1 ? __('Assistant'):"Student";
+                              echo "<li>".$coursename[$row][4].": " .$coursename[$row][5]." (".$courseAff.")"."</li>";
+                            }
+                          }
+                          echo "</ul>";
+                          ?>
                         </li>
                       </ul>
 
-                      <a class="btn btn-success"><i class="fa fa-edit m-right-xs"></i>Edit Profile</a>
-                      <br />
 
                       <!-- start skills -->
-                      <h4>Skills</h4>
-                      <ul class="list-unstyled user_data">
+                      <h4><?= __('Experience')?></h4>
+                      <ul class="list-unstyled user_data" style="width: 50%;">
                         <li>
-                          <p>Web Applications</p>
-                          <div class="progress progress_sm">
-                            <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="50"></div>
-                          </div>
-                        </li>
-                        <li>
-                          <p>Website Design</p>
-                          <div class="progress progress_sm">
-                            <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="70"></div>
-                          </div>
-                        </li>
-                        <li>
-                          <p>Automation & Testing</p>
-                          <div class="progress progress_sm">
-                            <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="30"></div>
-                          </div>
-                        </li>
-                        <li>
-                          <p>UI / UX</p>
-                          <div class="progress progress_sm">
-                            <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="50"></div>
-                          </div>
+                          <?php echo " ".$userInformation['ProfileExperience']; ?>
                         </li>
                       </ul>
+                      <br />
                       <!-- end of skills -->
 
-                    </div>
+                      <!-- Large modal -->
+                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg-1"><?= __('Edit Profile')?></button>
+                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg-2"><?= __('Edit Password')?></button>
+                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg-3"><?= __('Edit Courses')?></button>
+                      <br>
+                      <?php echo $messageOutput?>
+
+                      <!-- Modal 1 user information -->
+                      <div class="modal fade bs-example-modal-lg-1" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                            </button>
+                            <h4 class="modal-title" id="myModalLabel"><?= __('Edit profile information')?></h4>
+                          </div>
+                          <form method="POST">
+                          <div class="modal-body">
+
+                          <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+                            <input type="text" class="form-control has-feedback-left" name="editFirstName" placeholder="First Name" value="<?php echo $userInformation['FirstName'];?>">
+                            <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                          </div>
+
+                          <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+                            <input type="text" class="form-control has-feedback-left" name="editLastName" placeholder="Last Name" value="<?php echo $userInformation['LastName'];?>">
+                            <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                          </div>
+
+                          <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+                            <input type="text" class="form-control has-feedback-left" name="editEmail" placeholder="Email" value="<?php echo $userInformation['Email'];?>">
+                            <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+                          </div>
+
+                          <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+                          <textarea class="form-control" rows="3" placeholder='Experience' name="editExp"><?php echo $userInformation['ProfileExperience'];?></textarea>
+                          </div>
+
+                          </div>
+
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><?= __('Close')?></button>
+                            <button type="submit" name="update_user_data" class="btn btn-primary"><?= __('Save changes')?></button>
+                          </div>
+                          </form>
                         </div>
+                      </div>
+                    </div>
+                    <!-- Modal 1 user information -->
+
+                    <!-- Modal 2 password -->
+                      <div class="modal fade bs-example-modal-lg-2" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                            </button>
+                            <h4 class="modal-title" id="myModalLabel"><?= __('Edit password')?></h4>
+                          </div>
+                          <form method="POST">
+                          <div class="modal-body">
+
+                          <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+                            <input type="text" class="form-control has-feedback-left" name="editOldPassword" placeholder="Old Password">
+                            <span class="fa fa-keyboard-o form-control-feedback left" aria-hidden="true"></span>
+                          </div>
+
+                          <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+                            <input type="text" class="form-control has-feedback-left" name="editNewPassword" placeholder="New Password">
+                            <span class="fa fa-keyboard-o form-control-feedback left" aria-hidden="true"></span>
+                          </div>
+
+                          </div>
+
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><?=__('Close')?></button>
+                            <button type="submit" name="update_user_password" class="btn btn-primary"><?= __('Save changes')?></button>
+                          </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Modal 3 Courses -->
+                    <div class="modal fade bs-example-modal-lg-3" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                            </button>
+                            <h4 class="modal-title" id="myModalLabel"><?= __('Edit Courses')?></h4>
+                          </div>
+                          <form method="POST">
+                          <div class="modal-body">
+
+                          <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+                            <input type="text" class="form-control has-feedback-left" name="editOldPassword" placeholder="Old Password">
+                            <span class="fa fa-keyboard-o form-control-feedback left" aria-hidden="true"></span>
+                          </div>
+
+                          <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+                            <input type="text" class="form-control has-feedback-left" name="editNewPassword" placeholder="New Password">
+                            <span class="fa fa-keyboard-o form-control-feedback left" aria-hidden="true"></span>
+                          </div>
+
+                          </div>
+
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><?=__('Close')?></button>
+                            <button type="submit" name="???????????????" class="btn btn-primary"><?= __('Save changes')?></button>
+                          </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Large modal -->
+
+                    </div>
+                    </div>
                       </div>
                     </div>
                   </div>
@@ -269,3 +396,11 @@ include("resources/inc/logout.inc.php");
 
   </body>
 </html>
+<?php
+  }
+  // If user is not logged in
+  else{
+  	header("Location: index.php");
+   	exit;
+  }
+ ?>
