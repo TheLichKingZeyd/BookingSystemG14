@@ -2,24 +2,24 @@
 
 include 'login.inc.php';
 
-// Hvis en bruker er innlogget
+// If user is logged in 
 if(!empty($_SESSION['userID'])) {
     
-    // Hent bruker informasjon
+    // Gather user information
     $sql = "SELECT * FROM users";
     $q = $pdo->prepare($sql);
     
-    // Kjør
+    // run
     try {
       $q->execute();
     } catch (PDOException) {
       echo "Noe gikk galt";
     }
     
-    // Hent
+    // fetch
     $brukere = $q->fetchAll(PDO::FETCH_OBJ);
     
-    // Sjekk at dataen har kommet
+    // Check if data has arrived
     if (!$brukere) {
       echo "Brukere ble ikke funnet";
       exit;
@@ -28,7 +28,7 @@ if(!empty($_SESSION['userID'])) {
     }
 }
 
-// Hvis ingen bruker innlogget
+// If no user is logged in
 else {
   echo "Ingen tilgang, logg inn";
   exit;
