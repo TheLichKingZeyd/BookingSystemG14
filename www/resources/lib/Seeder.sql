@@ -84,5 +84,10 @@ INSERT INTO `ProfileInfo` (`UserID`, `ProfileExperience`) VALUES
 ('19','practical physics stuff, knows things, seen things');
 
 
+INSERT INTO `Availabilities` (`AvailabilityStart`, `AvailabilityEnd`, `AssistantID`) VALUES 
+('2023-12-11 07:00:00','2023-12-11 16:00:00','10'),
+('2023-12-12 07:00:00','2023-12-12 16:00:00','10');
+
+
 
 
