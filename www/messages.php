@@ -14,7 +14,6 @@ if (isset($userID)) {
   //Getting User conversations
   $conversations = getConversation($userID, $pdo);
   
-}
 ?>
 
 <!DOCTYPE html>
@@ -278,3 +277,11 @@ if (isset($userID)) {
     <script src="../node_modules/gentelella/build/js/custom.min.js"></script>
   </body>
 </html>
+<?php
+  }
+  // If user is not logged in
+  else{
+  	header("Location: index.php");
+   	exit;
+  }
+ ?>

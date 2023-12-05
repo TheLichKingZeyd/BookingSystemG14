@@ -35,6 +35,7 @@ if(isset($_POST['update_user_data'])) {
         // Excecute and pass data into database
         $execute = $statement->execute($data);
         $statement2->execute();
+        $execute3 = "";
 
         // IF user exists in profileinfo table update, if first time entry insert
         if($statement2->rowCount() == 1){

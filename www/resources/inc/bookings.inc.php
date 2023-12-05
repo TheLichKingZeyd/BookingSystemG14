@@ -84,6 +84,19 @@ if (isset($_POST['submitBooking']) && is_string($_POST['bookingTitle']) && is_st
 
         $assistant = $assistQuery->fetch(PDO::FETCH_OBJ);
 
+        $sqlFetchStudent = "SELECT * FROM users WHERE UserID = $userID";
+        $studQuery = $pdo->prepare($sqlFetchStudent);
+
+        try {
+            $studQuery->execute();
+        } catch(PDOException $exc){
+            $errormsg = $exc;
+        }
+
+        $student = $studQuery->fetch(PDO::FETCH_OBJ);
+
+        
+
         $sqlFetchCourse = "SELECT * FROM courses WHERE CourseID = $newBooking->courseID";
         $courseQuery = $pdo->prepare($sqlFetchCourse);
 
@@ -101,8 +114,12 @@ if (isset($_POST['submitBooking']) && is_string($_POST['bookingTitle']) && is_st
                      "studEmail" => $_SESSION['email'],
                      "assistName" => $assistant->FirstName . " " . $assistant->LastName,
                      "assistEmail" => $assistant->Email,
-                     "course" => $course->CourseCode . " - " . $course->CourseName];
+                     "course" => $course->CourseCode . " - " . $course->CourseName,
+                     "assistAllow" => $assistant->AllowEmail,
+                     "studAllow" => $student->AllowEmail];
         sendMails($mailInfo);
+        echo '<script>window.location.href = "mybooking.php";</script>';
+        
     }
 }
 

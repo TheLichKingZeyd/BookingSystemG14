@@ -6,7 +6,8 @@ include("resources/inc/language.inc.php");
 include("resources/inc/logout.inc.php");
 include("resources/inc/bookings.inc.php");
 
-
+// If user is logged in
+if (isset($userID)) {
 
 ?>
 
@@ -231,11 +232,12 @@ include("resources/inc/bookings.inc.php");
                           </label>
                           <div class="col-md-6 col-sm-6 col-xs-12">
                             <input type="time" id="booking-time" name="bookingTime" step="900" min="08:00" max="23:45" class="date-picker form-control col-md-7 col-xs-12" required="required">
+                            <p><?= __('Booking must be every 15 minutes: 00, 15, 30 or 45')?></p>
                           </div>
                         </div>
                         <div class="ln_solid"></div>
                         <div class="form-group">
-                          <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                          <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3 text-center">
                             <a class="btn btn-primary" type="button" href="booking.php"><?= __('Cancel')?></a>
                             <button class="btn btn-primary" type="reset"><?= __('Reset')?></button>
                             <button class="btn btn-success" type="submit" name="submitBooking"><?= __('Submit')?></a>
@@ -272,7 +274,7 @@ include("resources/inc/bookings.inc.php");
                           <?php 
                   
                             foreach($assistants as $assistant){
-                              if ($course->CourseID == $assistant->CourseID){                            
+                              if ($course->CourseID == $assistant->CourseID && $assistant->UserID != $userID){                           
 
                           ?>
 
@@ -357,3 +359,11 @@ include("resources/inc/bookings.inc.php");
     <script src="../node_modules/gentelella/build/js/custom.min.js"></script>
   </body>
 </html>
+<?php
+  }
+  // If user is not logged in
+  else{
+  	header("Location: index.php");
+   	exit;
+  }
+ ?>

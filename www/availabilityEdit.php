@@ -41,6 +41,7 @@ if (isset($userID)) {
     array_push($truncatedAvails, $available);
   }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -355,3 +356,11 @@ if (isset($userID)) {
     </script>
   </body>
 </html>
+<?php
+  }
+  // If user is not logged in
+  else{
+  	header("Location: index.php");
+   	exit;
+  }
+ ?>

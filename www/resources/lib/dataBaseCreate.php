@@ -23,6 +23,16 @@ try {
   // calendar can be both used for booking and to when a TA would be available 
   // open this link to build the database
   //            http://localhost/BookingSystemG14/www/resources/lib/DataBaseCreate.php
+  
+  $sqlDropper = "DROP TABLE IF EXISTS CourseAccess;
+  DROP TABLE IF EXISTS ProfileInfo;
+  DROP TABLE IF EXISTS Conversations;
+  DROP TABLE IF EXISTS Chats;
+  DROP TABLE IF EXISTS Availabilities;
+  DROP TABLE IF EXISTS Bookings;
+  DROP TABLE IF EXISTS Courses;
+  DROP TABLE IF EXISTS Users;";
+
   $sql = "CREATE TABLE IF NOT EXISTS Users (
   UserID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   FirstName VARCHAR(50) NOT NULL,
@@ -88,17 +98,27 @@ try {
     UserID INT UNSIGNED NOT NULL,
     ProfileExperience VARCHAR(256),
     CONSTRAINT FK_ProfileUserID FOREIGN KEY (UserID) REFERENCES Users(UserID) ON DELETE CASCADE
-  )
-  
+  );
 
 ";
+
+  
+
+
+
+
 
   //  $SQL will be executed and a message will pop up letting us know that it has been succesfful incase of errors
   //the $sql script will be printed out, in addition to an error message.
   //might need changes tables are dropped before creation, seeding also needs to be added soon.
   //This Frankenstein solution is not the best, but it'll do for now, could revisit later for more readable errors.
-  $conn->exec($sql);
-  echo "Tables created successfully without errors";
+  $conn->exec($sqlDropper);
+  $conn->exec($sql);  
+
+  $query =   file_get_contents("Seeder.sql");
+  $conn->exec($query);
+
+  echo "Tables created and Seeded successfully without errors, Please refer to the read me file for information about the seed";
 } catch(PDOException $e) {
   echo $sql . "<br><br><br>" . $e->getMessage();
 }

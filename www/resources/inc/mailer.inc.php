@@ -25,8 +25,12 @@ function sendMails(array $mailInfo){
 
     // Send mails confirming a new booking has been made
     if ($mailInfo['mailType'] == "booking"){
-        sendBookingConfirmationMailsStudent($mail, $mailInfo);
-        sendBookingConfirmationMailsAssistant($mailInfo);
+        if ($mailInfo["studAllow"] == 1){
+            sendBookingConfirmationMailsStudent($mail, $mailInfo);
+        }
+        if ($mailInfo['assistAllow'] == 1) {
+            sendBookingConfirmationMailsAssistant($mailInfo);
+        }
     } 
     
     // send mail confirming new user account has been registered
@@ -36,22 +40,30 @@ function sendMails(array $mailInfo){
 
     // send mail to assistant when student cancels booking
     if ($mailInfo['mailType'] == "studCanceledBooking"){
-        sendBookingCancelationMailToAssistant($mail, $mailInfo);
+        if ($mailInfo["assistAllow"] == 1){
+            sendBookingCancelationMailToAssistant($mail, $mailInfo);
+        }
     }
 
     // send mail to student when assistant cancels booking
     if ($mailInfo['mailType'] == "assistCanceledBooking"){
-        sendBookingCancelationMailToStudent($mail, $mailInfo);
+        if ($mailInfo["studAllow"] == 1){
+            sendBookingCancelationMailToStudent($mail, $mailInfo);
+        }
     }
 
     // send mail to assistant when student moves booking
     if ($mailInfo['mailType'] == "assistMovedBooking"){
-        sendBookingMovedMailToStudent($mail, $mailInfo);
+        if ($mailInfo["studAllow"] == 1){
+            sendBookingMovedMailToStudent($mail, $mailInfo);
+        }
     }
 
     // send mail to student when assistant moves booking
     if ($mailInfo['mailType'] == "studMovedBooking"){
-        sendBookingMovedMailToAssistant($mail, $mailInfo);
+        if ($mailInfo["assistAllow"] == 1){
+            sendBookingMovedMailToAssistant($mail, $mailInfo);
+        }
     }
 
 }
