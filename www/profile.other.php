@@ -1,8 +1,34 @@
 <!-- Include -->
 <?php
+session_start();
 include("resources/inc/session.inc.php");
 include("resources/inc/language.inc.php");
 include("resources/inc/logout.inc.php");
+
+// If user is logged in
+if (isset($userID)) {
+
+  include 'resources/inc/getOtherUserprofile.inc.php';
+  include 'resources/inc/getCourses.inc.php';
+
+  // If user is not set in the header
+	if (!isset($_GET['user'])) {
+        header("Location: message.php");
+        exit;
+    }
+
+    // get user data, profile we are viewing
+    $userProfile = getOtherUserprofile($_GET['user'], $pdo);
+
+  // If no return exit
+    if (empty($userProfile)) {
+        header("Location: messages.php");
+        exit;
+    }
+
+  // get user data (who we are viewing)
+  $coursename = getCourses($_GET['user'], $pdo);
+
 ?>
 
 <!DOCTYPE html>
@@ -22,9 +48,9 @@ include("resources/inc/logout.inc.php");
     <link href="../node_modules/gentelella/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <!-- NProgress -->
     <link href="../node_modules/gentelella/vendors/nprogress/nprogress.css" rel="stylesheet">
-    <!-- jQuery custom content scroller -->
-    <link href="../node_modules/gentelella/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css" rel="stylesheet"/>
-
+    <!-- bootstrap-daterangepicker -->
+    <link href="../node_modules/gentelella/vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+    
     <!-- Custom Theme Style -->
     <link href="../node_modules/gentelella/build/css/custom.css" rel="stylesheet">
   </head>
@@ -32,7 +58,7 @@ include("resources/inc/logout.inc.php");
   <body class="nav-md">
     <div class="container body">
       <div class="main_container">
-        <div class="col-md-3 left_col menu_fixed">
+        <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
               <a href="index.html" class="site_title"><i class="fa fa-search"></i> <span>Booking System</span></a>
@@ -79,18 +105,18 @@ include("resources/inc/logout.inc.php");
               <?php  
                 if ($userType){
               ?>
-
+              
               <div class="menu_section">
                 <h3><?= __('Assisant Teacher tools')?></h3>
                 <ul class="nav side-menu">
-                  <li><a href="admin.booking.php" ><i class="fa fa-bug"></i> <?= __('Check bookings')?></a></li>
-                  <li><a href="admin.calendar.php" ><i class="fa fa-calendar"></i> <?= __('Edit Calendar')?></a></li>
+                  <li><a href="assistant.bookings.php" ><i class="fa fa-bug"></i> <?= __('Check bookings')?></a></li>
+                  <li><a href="assistant.calendars.php" ><i class="fa fa-calendar"></i> <?= __('Edit Calendar')?></a></li>
                 </ul>
               </div>
-
+              
               <?php
                 }
-              ?>
+              ?>             
 
             </div>
             <!-- /sidebar menu -->
@@ -150,14 +176,25 @@ include("resources/inc/logout.inc.php");
         <!-- page content -->
         <div class="right_col" role="main">
           <div class="">
+            
             <div class="clearfix"></div>
+
             <div class="row">
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Example</h2>
+                    <h2><?= __('User Profile')?></h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
                       </li>
                       <li><a class="close-link"><i class="fa fa-close"></i></a>
                       </li>
@@ -165,7 +202,55 @@ include("resources/inc/logout.inc.php");
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
+                    <div class="col-md-3 col-sm-3 col-xs-12 profile_left">
+                      <div class="profile_img">
+                        <div id="crop-avatar">
+                          <!-- Current avatar -->
+                          <img class="img-responsive avatar-view" src="../node_modules/gentelella/production/images/user.png" alt="Avatar" title="Change the avatar">
+                        </div>
+                      </div>
+                      <h3><?php echo $userProfile['FirstName'] . " " . $userProfile['LastName']; ?></h3>
 
+                      <ul class="list-unstyled user_data">
+
+                        <li>
+                          <i class="fa fa-envelope-o user-profile-icon"></i><?php echo " ".$userProfile['Email']; ?>
+                        </li>
+                        <li>
+                          <i class="fa fa-user user-profile-icon"></i><?php $isAssistant = $userProfile['IsAssistant'] == 1 ? __('Assistant'):"Student"; echo " $isAssistant"; ?>
+                        </li>
+                        <li>
+                          <i class="fa fa-book user-profile-icon"></i><?= __(' Subjects')?>
+                          <?php
+                          echo "<ul>";
+                          for ($row = 0; $row < count($coursename); $row++) {
+                            for ($col = 0; $col < 1; $col++) {
+                              $courseAff = $coursename[$row][2] == 1 ? __('Assistant'):"Student";
+                              echo "<li>".$coursename[$row][4].": " .$coursename[$row][5]." (".$courseAff.")"."</li>";
+                            }
+                          }
+                          echo "</ul>";
+                          ?>
+                        </li>
+                      </ul>
+
+
+                      <!-- start skills -->
+                      <?php if($userProfile['IsAssistant'] == 1){?>
+                      <h4><?= __('Experience')?></h4>
+                      <ul class="list-unstyled user_data" style="width: 50%;">
+                        <li>
+                          <?php echo " ".$userProfile['ProfileExperience']; ?>
+                        </li>
+                      </ul>
+                      <?php }?>
+                      <br />
+                      <!-- end of skills -->
+
+                    </div>
+                    </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -192,10 +277,25 @@ include("resources/inc/logout.inc.php");
     <script src="../node_modules/gentelella/vendors/fastclick/lib/fastclick.js"></script>
     <!-- NProgress -->
     <script src="../node_modules/gentelella/vendors/nprogress/nprogress.js"></script>
-    <!-- jQuery custom content scroller -->
-    <script src="../node_modules/gentelella/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
-
+    <!-- morris.js -->
+    <script src="../node_modules/gentelella/vendors/raphael/raphael.min.js"></script>
+    <script src="../node_modules/gentelella/vendors/morris.js/morris.min.js"></script>
+    <!-- bootstrap-progressbar -->
+    <script src="../node_modules/gentelella/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+    <!-- bootstrap-daterangepicker -->
+    <script src="../node_modules/gentelella/vendors/moment/min/moment.min.js"></script>
+    <script src="../node_modules/gentelella/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+    
     <!-- Custom Theme Scripts -->
     <script src="../node_modules/gentelella/build/js/custom.min.js"></script>
+
   </body>
 </html>
+<?php
+  }
+  // If user is not logged in
+  else{
+  	header("Location: index.php");
+   	exit;
+  }
+ ?>

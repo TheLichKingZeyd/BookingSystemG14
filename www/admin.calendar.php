@@ -97,7 +97,7 @@ include("resources/inc/logout.inc.php");
 
             <!-- /menu footer buttons -->
             <div class="sidebar-footer hidden-small">
-              <button data-toggle="tooltip" data-placement="top" title="<?= __('Settings')?>">
+              <button onclick="location.href='profile.php';" data-toggle="tooltip" data-placement="top" title="<?= __('Settings')?>">
                 <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
               </button>
               <button onclick="location.href='?lang=en';" data-toggle="tooltip" data-placement="top" title="English">
