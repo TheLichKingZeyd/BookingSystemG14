@@ -23,10 +23,10 @@ if (isset($userID)) {
   $truncatedAvails = array();
   for($i = 0; $i < sizeof($days); $i++){
     $available = new Availability();
-    $available->availabilityDate = $days[$i];
-    $available->availabilityID = $availability->AvailabilityID;
+    $available->availabilityDate = $days[$i];    
     foreach($availabilities as $availability){
       if ($available->availabilityStart == null && $days[$i] == date("Y-m-d", strtotime($availability->AvailabilityStart)) && $days[$i] == date("Y-m-d", strtotime($availability->AvailabilityEnd))){
+        $available->availabilityID = $availability->AvailabilityID;
         $available->availabilityStart = $availability->AvailabilityStart;
         $available->availabilityEnd = $availability->AvailabilityEnd;
       }
@@ -245,7 +245,7 @@ if (isset($userID)) {
 
                         foreach($truncatedAvails as $truncAvails) {
                            if($truncAvails->availabilityID == $_GET['AvailabilityID']) {
-                            // THIS DOESN'T WORK, IT PICKS THE LAST OBJECT IN THE ARRAY :(
+                            
                         ?>
                         
                         <input type="hidden" name="availStart" value=" <?= $truncAvails->availabilityStart ?>">

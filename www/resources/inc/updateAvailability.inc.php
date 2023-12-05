@@ -34,8 +34,6 @@ if(isset($_POST['assistant_submit_change'])) {
                 
                 $oldStart = $_POST['availStart'];
                 $oldEnd = $_POST['availEnd'];
-                echo $oldEnd;
-                echo $oldStart;
                 $sqlDeleteOld = "DELETE * FROM availabilities WHERE (AvailabilityStart >= $oldStart AND AvailabilityEnd <= $oldEnd AND AssistantID=$userID)";
                 $query = $pdo->prepare($sqlDeleteOld);
 
