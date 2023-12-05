@@ -4,7 +4,7 @@
 include_once __DIR__ . '/../lib/validator.lib.php';
 $_messageOutput['message'] = "";
 
-// If POST
+// If POST update user data
 if(isset($_POST['update_user_data'])) {
 
     // Clean data and pass into variables
@@ -67,7 +67,7 @@ if(isset($_POST['update_user_data'])) {
     }
 }
 
-// If POST
+// If POST update user password
 if(isset($_POST['update_user_password'])) {
 
     // Start new validator
@@ -106,6 +106,100 @@ if(isset($_POST['update_user_password'])) {
         }
     } else {
         $_messageOutput['message'] ="Could not connect to database"; //could not find entry in database
+    }
+}
+
+// If POST update courses
+if(isset($_POST['update_course_access'])) {
+
+    // DELETE COURSEACCESS
+    if(!empty($_POST['delete'])) {
+        foreach($_POST['delete'] as $courseID) {
+            $courseQuery = "DELETE FROM courseaccess WHERE UserID='$userID' AND CourseID='$courseID'"; //sql
+            $cq = $pdo->prepare($courseQuery);
+
+            // Execute
+            try {
+                $cq->execute();
+            } catch(PDOException){
+                $_messageOutput['message'] ="Something Failed";
+            }
+        }
+    }
+
+    // ADD COURSEACCESS
+    if(!empty($_POST['insert'])) {
+        foreach($_POST['insert'] as $insertCourseID) {
+            $courseQuery2 = "INSERT INTO courseaccess (CourseID, UserID, AsAssistant) VALUES ('$insertCourseID','$userID','0') "; //sql
+            $cq2 = $pdo->prepare($courseQuery2);
+
+            // Execute
+            try {
+                $cq2->execute();
+            } catch(PDOException){
+                $_messageOutput['message'] ="Something Failed";
+            }
+        }
+    }
+
+    // ADD TEACHING ASSISTANT
+    if(!empty($_POST['addAssistant'])) {
+        foreach($_POST['addAssistant'] as $addCID) {
+            $courseQuery3 = "UPDATE courseaccess SET AsAssistant=1 WHERE UserID='$userID' AND CourseID='$addCID'"; //sql
+            $cq3 = $pdo->prepare($courseQuery3);
+
+            // Execute
+            try {
+                $cq3->execute();
+            } catch(PDOException){
+                $_messageOutput['message'] ="Something Failed";
+            }
+        }
+    }
+
+    // REMOVE TEACHING ASSISTANT
+    if(!empty($_POST['removeAssistant'])) {
+        foreach($_POST['removeAssistant'] as $removeCID) {
+            $courseQuery4 = "UPDATE courseaccess SET AsAssistant=0 WHERE UserID='$userID' AND CourseID='$removeCID'"; //sql
+            $cq4 = $pdo->prepare($courseQuery4);
+
+            // Execute
+            try {
+                $cq4->execute();
+            } catch(PDOException){
+                $_messageOutput['message'] ="Something Failed";
+            }
+        }
+    }
+}
+
+// If POST
+if(isset($_POST['update_allow_email'])) {
+
+    // Query for updateing AllowEmail to allow
+    $emailQuery = "UPDATE users SET AllowEmail=1 WHERE UserID=$userID";
+    $e = $pdo->prepare($emailQuery);
+
+    // Execute
+    try {
+        $e->execute();
+    } catch(PDOException){
+        $_messageOutput['message'] ="Something Failed";
+    }
+}
+
+// If POST
+if(isset($_POST['update_disallow_email'])) {
+
+    // Query for updateing AllowEmail to not allow
+    $emailQuery2 = "UPDATE users SET AllowEmail=0 WHERE UserID=$userID";
+    $e2 = $pdo->prepare($emailQuery2);
+
+    // Execute
+    try {
+        $e2->execute();
+    } catch(PDOException){
+        $_messageOutput['message'] ="Something Failed";
     }
 }
 

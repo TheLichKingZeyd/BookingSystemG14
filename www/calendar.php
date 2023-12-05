@@ -101,7 +101,7 @@ include("resources/inc/logout.inc.php");
 
             <!-- /menu footer buttons -->
             <div class="sidebar-footer hidden-small">
-              <button data-toggle="tooltip" data-placement="top" title="<?= __('Settings')?>">
+              <button onclick="location.href='profile.php';" data-toggle="tooltip" data-placement="top" title="<?= __('Settings')?>">
                 <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
               </button>
               <button onclick="location.href='?lang=en';" data-toggle="tooltip" data-placement="top" title="English">
@@ -218,7 +218,7 @@ include("resources/inc/logout.inc.php");
 
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h4 class="modal-title" id="myModalLabel2"><?= __('Show Calendar Entry')?></h4>
+            <h4 class="modal-title" id="myModalLabel2"><?= __('Calendar Entry')?></h4>
           </div>
           <div class="modal-body">
 

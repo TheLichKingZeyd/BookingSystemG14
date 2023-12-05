@@ -7,6 +7,7 @@ include("resources/inc/connection.inc.php");
 include("resources/inc/login.inc.php");
 include("resources/inc/language.inc.php");
 include("resources/inc/register.inc.php");
+
 ?>
 
 <!DOCTYPE html>

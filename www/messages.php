@@ -11,12 +11,7 @@ if (isset($userID)) {
   include 'resources/inc/conversations.inc.php';
   include 'resources/inc/lastChat.inc.php';
 
-  //include 'app/helpers/user.php';
-  //include 'app/helpers/conversations.php';
-  //include 'app/helpers/timeAgo.php';
-  //include 'app/helpers/last_chat.php';
-
-  # Getting User conversations
+  //Getting User conversations
   $conversations = getConversation($userID, $pdo);
   
 }
@@ -114,7 +109,7 @@ if (isset($userID)) {
 
             <!-- /menu footer buttons -->
             <div class="sidebar-footer hidden-small">
-              <button data-toggle="tooltip" data-placement="top" title="<?= __('Settings')?>">
+              <button onclick="location.href='profile.php';" data-toggle="tooltip" data-placement="top" title="<?= __('Settings')?>">
                 <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
               </button>
               <button onclick="location.href='?lang=en';" data-toggle="tooltip" data-placement="top" title="English">
@@ -211,9 +206,11 @@ if (isset($userID)) {
                           echo "<i class='fa fa-user'>";
                           echo "</i> <i class='fa fa-comments-o'></i> " . __('Chat') . "</button>";
                           echo '</a>';
+                          echo "<a href=profile.other.php?user=$bruker->UserID>";
                           echo '<button type="button" class="btn btn-primary btn-xs">';
                           echo '<i class="fa fa-user"> </i> ' . __('View Profile');
                           echo '</button>';
+                          echo '</a>';
                           echo '</div>';
                           echo '</div>';
                           echo '</div>';
