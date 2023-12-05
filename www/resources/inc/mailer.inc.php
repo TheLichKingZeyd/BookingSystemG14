@@ -51,7 +51,7 @@ function sendBookingConfirmationMails(PHPMailer $mail, array $mailInfo){
         // add variables to PHPMailer about the assistent
         $mail->From = "noreply.bsg14@gmail.com";
         $mail->FromName = "Noreply";
-        $mail->addAddress($mailInfo['assistEmail'], $mailInfo['assstName']);
+        $mail->addAddress($mailInfo['assistEmail'], $mailInfo['assistName']);
         $mail->Subject = "Booking confirmation";
 
         // construct email message for assistant about new booking
