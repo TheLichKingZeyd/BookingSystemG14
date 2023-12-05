@@ -1,6 +1,6 @@
 <?php 
 
-class availability{
+class Availability{
 
 //    public $availabilityID;
     public $availabilityStart;
