@@ -36,7 +36,7 @@ try {
 
 $assistants = $assistantsQuery->fetchAll(PDO::FETCH_OBJ);
 
-if (isset($_POST['submitBooking']) && is_string($_POST['bookingTitle']) && is_string($_POST['bookingDescription']) && is_string($_POST['bookingDate']) && is_string($_POST['bookingTime']) && is_numeric($_POST['bookingAssistant']) && is_numeric($_POST['bookingCourse'])){
+if (isset($_POST['submitBooking']) && is_string($_POST['bookingTitle']) && is_string($_POST['bookingDescription']) && is_string($_POST['bookingDate']) && is_string($_POST['bookingTime']) && is_numeric($_POST['bookingAssistant']) && is_numeric($_POST['bookingCourse']) && ($_POST['bookingTime'] > date("Y-m-d h:m:s"))){
     include_once 'connection.inc.php';
     $validator = new Validator();
     $bookingAssistant = $_POST['bookingAssistant'];
