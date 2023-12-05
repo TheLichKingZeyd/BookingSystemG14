@@ -16,7 +16,7 @@ $lang = [
     'Profile'=>'Profil',
     'Logout'=>'Logg ut',
     'Settings'=>'Instillinger',
-	'Show Calendar Entry'=>'Hvis kalender hendelse',
+	'Calendar Entry'=>'Kalender hendelse',
 	'Title'=>'Tittel',
 	'Description'=>'Beskrivelse',
 	'Start time'=>'Start tid',
@@ -46,6 +46,16 @@ $lang = [
 	'Add that I am an assistant teacher:'=>'Legg til at jeg er hjelpelærer:',
 	'Remove Courses:'=>'Fjern fag:',
 	'Remove that I am an assistant teacher:'=>'Fjern at jeg er hjelpelærer:',
+	'Classes'=>'Klasser',
+	'Choose'=>'Velg',
+	'Assistant Teacher:'=>'Hjelpelærer:',
+	'Date'=>'Dato',
+	'Time'=>'Tid',
+	'Cancel'=>'Lukk',
+	'Reset'=>'Nullstill',
+	'Submit'=>'Send inn',
+	'Please describe what you need help with, and the place you want it to be held.'=>'Beskriv hva du trenger hjelp med, og hvor du vil at det skal være',
+	'Class:'=>'Klasse:',
 ];
 
 ?>

@@ -189,7 +189,7 @@ include("resources/inc/bookings.inc.php");
                        -->
 
                     <div class="x_title">
-                      <h2>Class: <?= $chosenCourse->CourseCode . " " . $chosenCourse->CourseName . "<br>" ?>Assistant Teacher: <?= $chosenAssistant->FirstName . " " . $chosenAssistant->LastName ?></h2>
+                      <h2><?= __('Class:')?> <?= $chosenCourse->CourseCode . " " . $chosenCourse->CourseName . "<br>" ?><?= __('Assistant Teacher:')?> <?= $chosenAssistant->FirstName . " " . $chosenAssistant->LastName ?></h2>
                       <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
@@ -205,28 +205,28 @@ include("resources/inc/bookings.inc.php");
                           </div>
                         </div>
                         <div class="form-group">
-                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="booking-title">Title <span class="required">*</span>
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="booking-title"><?= __('Title')?> <span class="required">*</span>
                           </label>
                           <div class="col-md-6 col-sm-6 col-xs-12">
                             <input type="text" id="booking-title" name="bookingTitle" required="required" class="form-control col-md-7 col-xs-12">
                           </div>
                         </div>
                         <div class="form-group">
-                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="booking-description">Description <span class="required">*</span>
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="booking-description"><?= __('Description')?> <span class="required">*</span>
                           </label>
                           <div class="col-md-6 col-sm-6 col-xs-12">
-                            <textarea id="booking-description" name="bookingDescription" required="required" placeholder="Please describe what you need help with, and the place you want it to be held." class="form-control col-md-7 col-xs-12"></textarea>
+                            <textarea id="booking-description" name="bookingDescription" required="required" placeholder="<?= __('Please describe what you need help with, and the place you want it to be held.')?>" class="form-control col-md-7 col-xs-12"></textarea>
                           </div>
                         </div>
                         <div class="form-group">
-                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="booking-date">Date <span class="required">*</span>
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="booking-date"><?= __('Date')?> <span class="required">*</span>
                           </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
                               <input type="date" id="booking-date" name="bookingDate" required="required" class="form-control col-md-7 col-xs-12">
                             </div>
                           </div>                        
                         <div class="form-group">
-                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="booking-time">Time <span class="required">*</span>
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="booking-time"><?= __('Time')?> <span class="required">*</span>
                           </label>
                           <div class="col-md-6 col-sm-6 col-xs-12">
                             <input type="time" id="booking-time" name="bookingTime" step="900" min="08:00" max="23:45" class="date-picker form-control col-md-7 col-xs-12" required="required">
@@ -235,9 +235,9 @@ include("resources/inc/bookings.inc.php");
                         <div class="ln_solid"></div>
                         <div class="form-group">
                           <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                            <a class="btn btn-primary" type="button" href="booking.php">Cancel</a>
-                            <button class="btn btn-primary" type="reset">Reset</button>
-                            <button class="btn btn-success" type="submit" name="submitBooking">Submit</a>
+                            <a class="btn btn-primary" type="button" href="booking.php"><?= __('Cancel')?></a>
+                            <button class="btn btn-primary" type="reset"><?= __('Reset')?></button>
+                            <button class="btn btn-success" type="submit" name="submitBooking"><?= __('Submit')?></a>
                           </div>
                         </div>
                       </form>
@@ -250,7 +250,7 @@ include("resources/inc/bookings.inc.php");
                     ?>
 
                     <div class="x_title">
-                      <h2>Classes</h2>
+                      <h2><?= __('Classes')?></h2>
                       <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
@@ -295,11 +295,11 @@ include("resources/inc/bookings.inc.php");
                                 </a>
                                 <a href="profile.other.php?user=<?= $assistant->UserID ?>">
                                   <button type="button" class="btn btn-primary btn-xs">
-                                    <i class="fa fa-user"> </i> View Profile
+                                    <i class="fa fa-user"> </i> <?= __('View Profile')?>
                                   </button>
                                 </a>
                                   <a type="button" class="btn btn-primary btn-xs" href="booking.php?assistant_id=<?= $assistant->UserID ?>&course_id=<?= $course->CourseID ?>">
-                                    <i class="fa fa-arrow-right"> </i> Choose
+                                    <i class="fa fa-arrow-right"> </i> <?= __('Choose')?>
                                     
                                   </a>
                                 </div>
