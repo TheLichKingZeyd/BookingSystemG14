@@ -4,43 +4,15 @@ session_start();
 include("resources/inc/session.inc.php");
 include("resources/inc/language.inc.php");
 include("resources/inc/logout.inc.php");
-include 'resources/lib/availability.lib.php';
 
 if (isset($userID)) {
 
   include 'resources/inc/getAllAvailabilities.inc.php';
-  include 'resources/inc/updateAvailability.inc.php';
-  # Getting availabilities
+    include 'resources/inc/updateAvailability.inc.php';
+  # Getting User conversations
   $availabilities = getAllAvailabilities($userID, $pdo);
   $int = "";
   $messageOutput = $_messageOutput['message'];
-  $days = array();
-
-  foreach($availabilities as $availability){
-      array_push($days, $availability->AvailabilityDate);
-  }
-  $days = array_values(array_unique($days));
-  $truncatedAvails = array();
-  for($i = 0; $i < sizeof($days); $i++){
-    $available = new Availability();
-    $available->availabilityDate = $days[$i];    
-    foreach($availabilities as $availability){
-      if ($available->availabilityStart == null && $days[$i] == date("Y-m-d", strtotime($availability->AvailabilityStart)) && $days[$i] == date("Y-m-d", strtotime($availability->AvailabilityEnd))){
-        $available->availabilityID = $availability->AvailabilityID;
-        $available->availabilityStart = $availability->AvailabilityStart;
-        $available->availabilityEnd = $availability->AvailabilityEnd;
-      }
-      if ($availability->AvailabilityStart < $available->availabilityStart && $days[$i] == date("Y-m-d", strtotime($availability->AvailabilityStart))){
-        $available->availabilityStart = $availability->AvailabilityStart;
-      }
-      if ($availability->AvailabilityEnd > $available->availabilityEnd && $days[$i] == date("Y-m-d", strtotime($availability->AvailabilityEnd))){
-        $available->availabilityEnd = $availability->AvailabilityEnd;
-      }
-      
-    }
-    array_push($truncatedAvails, $available);
-  }
-}
 
 ?>
 
@@ -242,24 +214,7 @@ if (isset($userID)) {
 
                       <div class="col-md-12 col-sm-12 col-xs-12 text-center">
                         <a class="btn btn-primary" type="button" href="availabilityEdit.php"><?= __('Cancel')?></a>
-                        <?php 
-
-                        foreach($truncatedAvails as $truncAvails) {
-                           if($truncAvails->availabilityID == $_GET['AvailabilityID']) {
-                            
-                        ?>
-                        
-                        <input type="hidden" name="availStart" value=" <?= $truncAvails->availabilityStart ?>">
-                        <input type="hidden" name="availEnd" value=" <?= $truncAvails->availabilityEnd ?>">
-
-                        <?php
-
-                           }
-                          }
-                            
-                        ?>
-                        <button class="btn btn-success" type="submit" name="assistant_submit_change"><?= __('Submit')?></button></a>
-
+                        <button class="btn btn-success" type="submit" name="user_submit_change"><?= __('Submit')?></button></a>
                         <br>
                         <?php echo $messageOutput; ?>
                       </div>
@@ -281,24 +236,24 @@ if (isset($userID)) {
                           </tr>
                         </thead>
                         <tbody>
-                          <?php foreach($truncatedAvails as $truncAvails) {
-                            if($date_now < $truncAvails->availabilityStart) {
+                          <?php foreach($availabilities as $availability) {
+                            if($date_now < $availability['AvailabilityStart']) {
                             $int++;
                             ?>
                           <tr>
                           <td><?= $int ?></td>
                             <td>
-                              <a><?= __('From')?> <?= $truncAvails->availabilityStart ?></a>
+                              <a><?= __('From')?> <?= $availability['AvailabilityStart']?></a>
                             </td>
                             <td>
-                              <a><?= $truncAvails->availabilityEnd ?></a>
+                              <a><?= $availability['AvailabilityEnd'] ?></a>
                             </td>
                             <td>
-                            <a href="availabilityEdit.php?AvailabilityID=<?= $truncAvails->availabilityID ?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> <?= __('Edit')?></a>
+                            <a href="availabilityEdit.php?AvailabilityID=<?= $availability['AvailabilityID'] ?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> <?= __('Edit')?></a>
                             </td>
                             <td>
                             <form method="POST">
-                              <input type="hidden" name="deleteAvailability" value="<?= $truncAvails->availabilityID ?>">
+                              <input type="hidden" name="deleteAvailability" value="<?= $availability['AvailabilityID'] ?>">
                               <button type="submit" class="btn btn-danger btn-xs" name="delete_avail"><i class="fa fa-trash-o"></i> <?= __('DELETE')?></button>
                             </form>
                             </td>
