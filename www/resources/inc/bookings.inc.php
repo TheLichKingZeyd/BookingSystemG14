@@ -96,7 +96,7 @@ if (isset($_POST['submitBooking']) && is_string($_POST['bookingTitle']) && is_st
         $course = $courseQuery->fetch(PDO::FETCH_OBJ);
 
         $mailInfo = array();
-        $mailInfo = ["mailType" => "Booking",
+        $mailInfo = ["mailType" => "booking",
                      "studName" => $_SESSION['firstname'] . " " . $_SESSION['lastname'],
                      "studEmail" => $_SESSION['email'],
                      "assistName" => $assistant->FirstName . " " . $assistant->LastName,

@@ -1,9 +1,11 @@
 <?php
 
 include_once 'connection.inc.php';
+include_once 'mailer.inc.php';
 include_once __DIR__ . '/../lib/validator.lib.php';
 include_once __DIR__ . '/../lib/user.lib.php';
 include_once __DIR__ . '/../lib/encrypter.lib.php';
+
 
 //POST FOR REGISTER -- under construction
 //runs when the 'register new user' form is submitted
@@ -42,9 +44,18 @@ if(isset($_POST['submitRegister']) && is_string($_POST['passReg']) && is_string(
 
     try {
         $query->execute();
-        header("Location:index.php#signin");
+        $registered = true;
     } catch(PDOException $exc){
         $errormsg = $exc;
+    }
+
+    if ($registered){
+        $mailInfo = array();
+        $mailInfo = ["mailType" => "accountRegister",
+                     "userName" => $newUser->firstName . " " . $newUser->lastName,
+                     "userEmail" => $newUser->email];
+        sendMails($mailInfo);
+        header("Location:index.php#signin");
     }
     
 }
