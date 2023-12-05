@@ -84,7 +84,7 @@ $lang = [
 	'Edit availability time'=>' Rediger tilgjengelighet tid',
 	'Add New Availabilities'=>'Legg til nye tilgjengeligheter',
 	'Edit existing availabilities'=>'Rediger eksisterende tilgjengeligheter',
-
+	'Booking must be every 15 minutes: 00, 15, 30 or 45'=>'Booking må være vært 15 minutt: 00, 15, 30 eller 45',
 ];
 
 ?>

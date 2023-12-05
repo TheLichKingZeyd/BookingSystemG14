@@ -118,7 +118,7 @@ if (isset($_POST['submitBooking']) && is_string($_POST['bookingTitle']) && is_st
                      "assistAllow" => $assistant->AllowEmail,
                      "studAllow" => $student->AllowEmail];
         sendMails($mailInfo);
-
+        echo '<script>window.location.href = "mybooking.php";</script>';
         
     }
 }
