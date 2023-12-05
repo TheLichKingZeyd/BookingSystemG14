@@ -21,7 +21,7 @@ if(isset($_POST['submitRegister']) && is_string($_POST['passReg']) && is_string(
         $password = $regValidator->cleanString($_POST['passReg']);    
         $password = password_hash($password, PASSWORD_DEFAULT);
     } else {
-        echo '<script>window.location.href = "index.php"; alert("Invalid password")</script>';
+        //echo '<script>window.location.href = "index.php"; alert("Invalid password")</script>';
     }
     if ($regValidator->cleanString($_POST['roleReg']) == "Assistant"){
         $isAssistant = true;
