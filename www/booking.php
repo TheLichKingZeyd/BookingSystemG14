@@ -287,13 +287,17 @@ include("resources/inc/bookings.inc.php");
                               </div>
                               <div class="col-xs-12 bottom text-center">
                                 <div class="col-xs-12 col-sm-6 emphasis" style="display:flex; flex-direction:row;">
+                                <a href="chat.php?user=<?= $assistant->UserID ?>">
                                   <button type="button" class="btn btn-success btn-xs"> 
                                     <i class="fa fa-user"></i> 
                                     <i class="fa fa-comments-o"></i> 
                                   </button>
+                                </a>
+                                <a href="profile.other.php?user=<?= $assistant->UserID ?>">
                                   <button type="button" class="btn btn-primary btn-xs">
                                     <i class="fa fa-user"> </i> View Profile
                                   </button>
+                                </a>
                                   <a type="button" class="btn btn-primary btn-xs" href="booking.php?assistant_id=<?= $assistant->UserID ?>&course_id=<?= $course->CourseID ?>">
                                     <i class="fa fa-arrow-right"> </i> Choose
                                     

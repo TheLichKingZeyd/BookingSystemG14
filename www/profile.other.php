@@ -5,21 +5,30 @@ include("resources/inc/session.inc.php");
 include("resources/inc/language.inc.php");
 include("resources/inc/logout.inc.php");
 
+// If user is logged in
 if (isset($userID)) {
 
-  include 'resources/inc/getAllUsers.inc.php';
-  include 'resources/inc/conversations.inc.php';
-  include 'resources/inc/lastChat.inc.php';
+  include 'resources/inc/getOtherUserprofile.inc.php';
+  include 'resources/inc/getCourses.inc.php';
 
-  //include 'app/helpers/user.php';
-  //include 'app/helpers/conversations.php';
-  //include 'app/helpers/timeAgo.php';
-  //include 'app/helpers/last_chat.php';
+  // If user is not set in the header
+	if (!isset($_GET['user'])) {
+        header("Location: message.php");
+        exit;
+    }
 
-  # Getting User conversations
-  $conversations = getConversation($userID, $pdo);
-  
-}
+    // get user data, profile we are viewing
+    $userProfile = getOtherUserprofile($_GET['user'], $pdo);
+
+  // If no return exit
+    if (empty($userProfile)) {
+        header("Location: messages.php");
+        exit;
+    }
+
+  // get user data (who we are viewing)
+  $coursename = getCourses($_GET['user'], $pdo);
+
 ?>
 
 <!DOCTYPE html>
@@ -39,9 +48,9 @@ if (isset($userID)) {
     <link href="../node_modules/gentelella/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <!-- NProgress -->
     <link href="../node_modules/gentelella/vendors/nprogress/nprogress.css" rel="stylesheet">
-    <!-- jQuery custom content scroller -->
-    <link href="../node_modules/gentelella/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css" rel="stylesheet"/>
-
+    <!-- bootstrap-daterangepicker -->
+    <link href="../node_modules/gentelella/vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+    
     <!-- Custom Theme Style -->
     <link href="../node_modules/gentelella/build/css/custom.css" rel="stylesheet">
   </head>
@@ -49,7 +58,7 @@ if (isset($userID)) {
   <body class="nav-md">
     <div class="container body">
       <div class="main_container">
-        <div class="col-md-3 left_col menu_fixed">
+        <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
               <a href="index.html" class="site_title"><i class="fa fa-search"></i> <span>Booking System</span></a>
@@ -96,18 +105,18 @@ if (isset($userID)) {
               <?php  
                 if ($userType){
               ?>
-
+              
               <div class="menu_section">
                 <h3><?= __('Assisant Teacher tools')?></h3>
                 <ul class="nav side-menu">
-                  <li><a href="admin.booking.php" ><i class="fa fa-bug"></i> <?= __('Check bookings')?></a></li>
-                  <li><a href="admin.calendar.php" ><i class="fa fa-calendar"></i> <?= __('Edit Calendar')?></a></li>
+                  <li><a href="assistant.bookings.php" ><i class="fa fa-bug"></i> <?= __('Check bookings')?></a></li>
+                  <li><a href="assistant.calendars.php" ><i class="fa fa-calendar"></i> <?= __('Edit Calendar')?></a></li>
                 </ul>
               </div>
-
+              
               <?php
                 }
-              ?>
+              ?>             
 
             </div>
             <!-- /sidebar menu -->
@@ -152,7 +161,6 @@ if (isset($userID)) {
                     <li><a href="index.php"><i class="fa fa-sign-out pull-right"></i> <?= __('Logout')?></a></li>
                   </ul>
                 </li>
-
                 <li class="">
                   <a href="messages.php">
                     <i class="fa fa-envelope-o"></i>
@@ -168,14 +176,25 @@ if (isset($userID)) {
         <!-- page content -->
         <div class="right_col" role="main">
           <div class="">
+            
             <div class="clearfix"></div>
+
             <div class="row">
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2><?= __('Messages')?></h2>
+                    <h2><?= __('User Profile')?></h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
                       </li>
                       <li><a class="close-link"><i class="fa fa-close"></i></a>
                       </li>
@@ -183,81 +202,55 @@ if (isset($userID)) {
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-
-                  <div class="col-md-4 col-sm-4 col-xs-12 profile_details">
-                    <?php 
-                      foreach($brukere as $bruker) {
-                        if($bruker->UserID != $userID) {
-                          echo '<div class="well profile_view" style="width:100%;">';
-                          echo '<div class="col-sm-12">';
-                          $isAssistant = $bruker->IsAssistant == 1 ? __('Assistant'):"Student";
-                          echo "<h4 class='brief'><i>". $isAssistant . "</i></h4>";
-                          echo '<div class="left col-xs-7">';
-                          echo "<h3>" . $bruker->FirstName . " " . $bruker->LastName ."</h3>";
-                          echo '<ul class="list-unstyled">';
-                          echo "<li><i class='fa fa-envelope-o user-profile-icon'></i> ". __('E-mail') . ": " . $bruker->Email . "</li>";
-                          echo '</ul>';
-                          echo '</div>';
-                          echo '<div class="right col-xs-5 text-center">';
-                          echo '<img src="../node_modules/gentelella/production/images/user.png" alt="" class="img-circle profile_img img-responsive">';
-                          echo '</div>';
-                          echo '</div>';
-                          echo '<div class="col-xs-12 bottom text-center">';
-                          echo '<div class="col-xs-12 col-sm-6 emphasis">';
-                          echo '</div>';
-                          echo '<div class="col-xs-12 col-sm-12 emphasis">';
-                          echo "<a href=chat.php?user=$bruker->UserID>";
-                          echo "<button type='button' class='btn btn-success btn-xs'>";
-                          echo "<i class='fa fa-user'>";
-                          echo "</i> <i class='fa fa-comments-o'></i> " . __('Chat') . "</button>";
-                          echo '</a>';
-                          echo "<a href=profile.other.php?user=$bruker->UserID>";
-                          echo '<button type="button" class="btn btn-primary btn-xs">';
-                          echo '<i class="fa fa-user"> </i> ' . __('View Profile');
-                          echo '</button>';
-                          echo '</a>';
-                          echo '</div>';
-                          echo '</div>';
-                          echo '</div>';
-                        }
-                      }
-                    ?>
-
-                  </div>
-                  
-                  <div class="col-md-8 col-sm-8 col-xs-12">
-                    <div>
-                      <div>
-    			              <div>
-                        <div class="col-sm-12">
-                        <br>
+                    <div class="col-md-3 col-sm-3 col-xs-12 profile_left">
+                      <div class="profile_img">
+                        <div id="crop-avatar">
+                          <!-- Current avatar -->
+                          <img class="img-responsive avatar-view" src="../node_modules/gentelella/production/images/user.png" alt="Avatar" title="Change the avatar">
                         </div>
+                      </div>
+                      <h3><?php echo $userProfile['FirstName'] . " " . $userProfile['LastName']; ?></h3>
 
-                        <ul id="chatList" class="list-group mvh-50 overflow-auto"><?php if (!empty($conversations)) { ?>
+                      <ul class="list-unstyled user_data">
 
-                        <?php 
-                          foreach ($conversations as $conversation){ ?>
-                          <li class="list-group-item">
-                            <a href="chat.php?user=<?=$conversation['UserID']?>" class="d-flex justify-content-between align-items-center p-2">
-                            <div class="d-flex align-items-center">
-                              <h3 class="fs-xs m-2"><?=$conversation['FirstName']. " " . $conversation['LastName']?><br>
-                              <small>
-                                <?php echo lastChat($userID, $conversation['UserID'], $pdo);?>
-                              </small>
-                            </h3>            	
-                          </div>
-                          </a>
+                        <li>
+                          <i class="fa fa-envelope-o user-profile-icon"></i><?php echo " ".$userProfile['Email']; ?>
                         </li>
-                        <?php } ?>
-                        <?php }else{ ?>
-                          <div class="alert alert-info text-center">
-                            <i class="fa fa-comments d-block fs-big"></i> <?= __('No messages yet, Start the conversation')?>
-                          </div>
-                          <?php } ?>
-                        </ul>
+                        <li>
+                          <i class="fa fa-user user-profile-icon"></i><?php $isAssistant = $userProfile['IsAssistant'] == 1 ? __('Assistant'):"Student"; echo " $isAssistant"; ?>
+                        </li>
+                        <li>
+                          <i class="fa fa-book user-profile-icon"></i><?= __(' Subjects')?>
+                          <?php
+                          echo "<ul>";
+                          for ($row = 0; $row < count($coursename); $row++) {
+                            for ($col = 0; $col < 1; $col++) {
+                              $courseAff = $coursename[$row][2] == 1 ? __('Assistant'):"Student";
+                              echo "<li>".$coursename[$row][4].": " .$coursename[$row][5]." (".$courseAff.")"."</li>";
+                            }
+                          }
+                          echo "</ul>";
+                          ?>
+                        </li>
+                      </ul>
+
+
+                      <!-- start skills -->
+                      <?php if($userProfile['IsAssistant'] == 1){?>
+                      <h4><?= __('Experience')?></h4>
+                      <ul class="list-unstyled user_data" style="width: 50%;">
+                        <li>
+                          <?php echo " ".$userProfile['ProfileExperience']; ?>
+                        </li>
+                      </ul>
+                      <?php }?>
+                      <br />
+                      <!-- end of skills -->
+
+                    </div>
+                    </div>
                       </div>
                     </div>
-                      
                   </div>
                 </div>
               </div>
@@ -265,6 +258,14 @@ if (isset($userID)) {
           </div>
         </div>
         <!-- /page content -->
+
+        <!-- footer content -->
+        <footer>
+          <div class="pull-right">
+          </div>
+          <div class="clearfix"></div>
+        </footer>
+        <!-- /footer content -->
       </div>
     </div>
 
@@ -276,10 +277,25 @@ if (isset($userID)) {
     <script src="../node_modules/gentelella/vendors/fastclick/lib/fastclick.js"></script>
     <!-- NProgress -->
     <script src="../node_modules/gentelella/vendors/nprogress/nprogress.js"></script>
-    <!-- jQuery custom content scroller -->
-    <script src="../node_modules/gentelella/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
-
+    <!-- morris.js -->
+    <script src="../node_modules/gentelella/vendors/raphael/raphael.min.js"></script>
+    <script src="../node_modules/gentelella/vendors/morris.js/morris.min.js"></script>
+    <!-- bootstrap-progressbar -->
+    <script src="../node_modules/gentelella/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+    <!-- bootstrap-daterangepicker -->
+    <script src="../node_modules/gentelella/vendors/moment/min/moment.min.js"></script>
+    <script src="../node_modules/gentelella/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+    
     <!-- Custom Theme Scripts -->
     <script src="../node_modules/gentelella/build/js/custom.min.js"></script>
+
   </body>
 </html>
+<?php
+  }
+  // If user is not logged in
+  else{
+  	header("Location: index.php");
+   	exit;
+  }
+ ?>

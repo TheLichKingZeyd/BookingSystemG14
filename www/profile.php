@@ -226,12 +226,14 @@ if (isset($userID)) {
 
 
                       <!-- start skills -->
+                      <?php if($userType == 1){?>
                       <h4><?= __('Experience')?></h4>
                       <ul class="list-unstyled user_data" style="width: 50%;">
                         <li>
                           <?php echo " ".$userInformation['ProfileExperience']; ?>
                         </li>
                       </ul>
+                      <?php }?>
                       <br />
                       <!-- end of skills -->
 
@@ -239,6 +241,17 @@ if (isset($userID)) {
                       <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg-1"><?= __('Edit Profile')?></button>
                       <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg-2"><?= __('Edit Password')?></button>
                       <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg-3"><?= __('Edit Courses')?></button>
+                      <br><br>
+
+                      <h4><?= __('Allow Email')?></h4>
+                      <form method="POST">
+                        <?php if($userInformation['AllowEmail'] == 1) {?>
+                        <button type="submit" name="update_disallow_email" class="btn btn-primary"><?= __('On') ?></button>
+                        <?php } else {?>
+                          <button type="submit" name="update_allow_email" class="btn btn-primary"><?= __('Off') ?></button>
+                        <?php }?>
+                      </form>
+
                       <br>
                       <?php echo $messageOutput?>
 
@@ -269,9 +282,11 @@ if (isset($userID)) {
                             <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
                           </div>
 
+                          <?php if($userType == 1){?>
                           <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
                           <textarea class="form-control" rows="3" placeholder='Experience' name="editExp"><?php echo $userInformation['ProfileExperience'];?></textarea>
                           </div>
+                          <?php }?>
 
                           </div>
 
@@ -330,21 +345,78 @@ if (isset($userID)) {
                           <form method="POST">
                           <div class="modal-body">
 
-                          <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
-                            <input type="text" class="form-control has-feedback-left" name="editOldPassword" placeholder="Old Password">
-                            <span class="fa fa-keyboard-o form-control-feedback left" aria-hidden="true"></span>
-                          </div>
+                          <label><?= __('Add Courses:')?></label>
+                          <p style="padding: 5px;">
+                          <?php
+                          $courseIDS = array_column($coursename, 'CourseID');
+                          for ($row = 0; $row < count($allCourses); $row++) {
+                            for ($col = 0; $col < 1; $col++) {
+                              $id = $allCourses[$row][0];
+                              if(!in_array($id, $courseIDS)) {
+                                echo "<input type='checkbox' name='insert[]' data-parsley-mincheck='2' class='flat' value='$id'/> ".$allCourses[$row][1].": " .$allCourses[$row][2];
+                                echo "<br />";
+                              }
+                            }
+                          }
+                          ?>
+                          </p>
 
-                          <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
-                            <input type="text" class="form-control has-feedback-left" name="editNewPassword" placeholder="New Password">
-                            <span class="fa fa-keyboard-o form-control-feedback left" aria-hidden="true"></span>
-                          </div>
+                          <label><?= __('Remove Courses:')?></label>
+                          <p style="padding: 5px;">
+                          <?php
+                          $courseIDS = array_column($coursename, 'CourseID');
+                          for ($row = 0; $row < count($allCourses); $row++) {
+                            for ($col = 0; $col < 1; $col++) {
+                              $id = $allCourses[$row][0];
+                              if(in_array($id, $courseIDS)) {
+                                echo "<input type='checkbox' name='delete[]' data-parsley-mincheck='2' class='flat' value='$id'/> ".$allCourses[$row][1].": " .$allCourses[$row][2];
+                                echo "<br />";
+                              }
+                            }
+                          }
+                          ?>
+                          </p>
+
+                          <?php if($userType == 1){?>
+                          <br>
+                          <h4 class="modal-title" id="myModalLabel"><?= __('Assistant teacher tools')?></h4>
+                          <br>
+                          <label><?= __('Add that I am an assistant teacher:')?></label>
+                          <p style="padding: 5px;">
+                          <?php
+                          for ($row = 0; $row < count($coursename); $row++) {
+                            for ($col = 0; $col < 1; $col++) {
+                              if ($coursename[$row][2] == 0) {
+                                $id = $coursename[$row][0];
+                                echo "<input type='checkbox' name='addAssistant[]' data-parsley-mincheck='2' class='flat' value='$id'/> ".$coursename[$row][4].": " .$coursename[$row][5];
+                                echo "<br />";
+                              }
+                            }
+                          }
+                          ?>
+                          </p>
+
+                          <label><?= __('Remove that I am an assistant teacher:')?></label>
+                          <p style="padding: 5px;">
+                          <?php
+                          for ($row = 0; $row < count($coursename); $row++) {
+                            for ($col = 0; $col < 1; $col++) {
+                              if ($coursename[$row][2] == 1) {
+                                $id = $coursename[$row][0];
+                                echo "<input type='checkbox' name='removeAssistant[]' data-parsley-mincheck='2' class='flat' value='$id'/> ".$coursename[$row][4].": " .$coursename[$row][5];
+                                echo "<br />";
+                              }
+                            }
+                          }
+                          ?>
+                          </p>
+                          <?php }?>
 
                           </div>
 
                           <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal"><?=__('Close')?></button>
-                            <button type="submit" name="???????????????" class="btn btn-primary"><?= __('Save changes')?></button>
+                            <button type="submit" name="update_course_access" class="btn btn-primary"><?= __('Save changes')?></button>
                           </div>
                           </form>
                         </div>

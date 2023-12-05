@@ -38,6 +38,14 @@ $lang = [
 	'Save changes'=>'Lagre Endringer',
 	'Close'=>'Lukk',
 	'Edit password'=>'Endre passord',
+	'On'=>'På',
+	'Off'=>'Av',
+	'Allow Email'=>'Tillat Epost',
+	'Assistant teacher tools'=>'Hjelpelærer verktøy',
+	'Add Courses:'=>'Legg til fag:',
+	'Add that I am an assistant teacher:'=>'Legg til at jeg er hjelpelærer:',
+	'Remove Courses:'=>'Fjern fag:',
+	'Remove that I am an assistant teacher:'=>'Fjern at jeg er hjelpelærer:',
 ];
 
 ?>
