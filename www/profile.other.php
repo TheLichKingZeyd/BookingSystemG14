@@ -110,7 +110,7 @@ if (isset($userID)) {
                 <h3><?= __('Assisant Teacher tools')?></h3>
                 <ul class="nav side-menu">
                   <li><a href="assistant.bookings.php" ><i class="fa fa-bug"></i> <?= __('Check bookings')?></a></li>
-                  <li><a href="assistant.calendars.php" ><i class="fa fa-calendar"></i> <?= __('Edit Calendar')?></a></li>
+                  <li><a href="availability.php" ><i class="fa fa-calendar"></i> <?= __('Edit Availability')?></a></li>
                 </ul>
               </div>
               

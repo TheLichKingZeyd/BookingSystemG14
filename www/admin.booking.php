@@ -15,7 +15,7 @@ if (isset($userID)) {
   $bookings = getAssistantBookings($userID, $pdo);
   $int = "";
   $messageOutput = $_messageOutput['message'];
-}
+
 ?>
 
 <!DOCTYPE html>
@@ -339,3 +339,11 @@ if (isset($userID)) {
     </script>
   </body>
 </html>
+<?php
+  }
+  // If user is not logged in
+  else{
+  	header("Location: index.php");
+   	exit;
+  }
+ ?>
