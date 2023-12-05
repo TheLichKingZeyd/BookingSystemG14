@@ -36,7 +36,7 @@ try {
 
 $assistants = $assistantsQuery->fetchAll(PDO::FETCH_OBJ);
 
-if (isset($_POST['submitBooking']) && is_string($_POST['bookingTitle']) && is_string($_POST['bookingDescription']) && is_string($_POST['bookingDate']) && is_string($_POST['bookingTime']) && is_numeric($_POST['bookingAssistant']) && is_numeric($_POST['bookingCourse'])){
+if (isset($_POST['submitBooking']) && is_string($_POST['bookingTitle']) && is_string($_POST['bookingDescription']) && is_string($_POST['bookingDate']) && is_string($_POST['bookingTime']) && is_numeric($_POST['bookingAssistant']) && is_numeric($_POST['bookingCourse']) && ($_POST['bookingTime'] > date("Y-m-d h:m:s"))){
     include_once 'connection.inc.php';
     $validator = new Validator();
     $bookingAssistant = $_POST['bookingAssistant'];
@@ -96,7 +96,7 @@ if (isset($_POST['submitBooking']) && is_string($_POST['bookingTitle']) && is_st
         $course = $courseQuery->fetch(PDO::FETCH_OBJ);
 
         $mailInfo = array();
-        $mailInfo = ["mailType" => "Booking",
+        $mailInfo = ["mailType" => "booking",
                      "studName" => $_SESSION['firstname'] . " " . $_SESSION['lastname'],
                      "studEmail" => $_SESSION['email'],
                      "assistName" => $assistant->FirstName . " " . $assistant->LastName,
