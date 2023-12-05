@@ -40,7 +40,7 @@ if( $_SERVER['REQUEST_METHOD'] == "POST" ) {
                 $availabilityEnd = date('Y-m-d H:i:s', strtotime("$currentDate $endTimeArray[$j]"));
                 
 
-                $newAvailability = new availability();
+                $newAvailability = new Availability();
                 $newAvailability->createNewAvailability($assistantID, $availabilityStart, $availabilityEnd);
 
 
