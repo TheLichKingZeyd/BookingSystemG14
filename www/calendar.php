@@ -3,6 +3,10 @@
 include("resources/inc/session.inc.php");
 include("resources/inc/language.inc.php");
 include("resources/inc/logout.inc.php");
+
+// If user is logged in
+if (isset($userID)) {
+
 ?>
 
 <!DOCTYPE html>
@@ -291,3 +295,11 @@ include("resources/inc/logout.inc.php");
     <script src="../node_modules/gentelella/build/js/custom.js"></script>
   </body>
 </html>
+<?php
+  }
+  // If user is not logged in
+  else{
+  	header("Location: index.php");
+   	exit;
+  }
+ ?>
