@@ -5,6 +5,9 @@ session_start();
 
 include("resources/inc/connection.inc.php");
 include("resources/inc/login.inc.php");
+include("resources/inc/language.inc.php");
+include("resources/inc/register.inc.php");
+
 ?>
 
 <!DOCTYPE html>
@@ -43,10 +46,10 @@ include("resources/inc/login.inc.php");
             <form method="POST" action="">
               <h1>Login Form</h1>
               <div>
-                <input type="text" name="user" class="form-control" placeholder="Username"/>
+                <input type="text" name="email" class="form-control" placeholder="E-mail"/>
               </div>
               <div>
-                <input type="password" name="pass" class="form-control" placeholder="Password"/>
+                <input type="password" name="password" class="form-control" placeholder="Password"/>
               </div>
 
               <button type="submit" name="submitLogin">Login</button>
@@ -71,16 +74,24 @@ include("resources/inc/login.inc.php");
             <form method="POST" action="">
               <h1>Create Account</h1>
               <div>
-                <input type="text" name="userReg" class="form-control" placeholder="Username" required="" />
+                <input type="text" name="firstNameReg" class="form-control" placeholder="First name" required="" />
               </div>
               <div>
-                <input type="email" name="emailReg" class="form-control" placeholder="Email" required="" />
+                <input type="text" name="lastNameReg" class="form-control" placeholder="Last name" required="" />
+              </div>
+              <div>
+                <input type="email" name="emailReg" class="form-control" placeholder="E-mail" required="" />
               </div>
               <div>
                 <input type="password" name="passReg" class="form-control" placeholder="Password" required="" />
               </div>
-
-              <button type="submit" name="submitRegister">Register</button>
+              <div class="col-md-9 col-sm-9 col-xs-12">
+                <select type="text" name="roleReg" class="form-control"  required="">
+                  <option value="Student">Student</option>
+                  <option value="Assistant">Assistant</option>
+                </select>
+              </div>
+              <button class="btn btn-success" type="submit" name="submitRegister">Register</button>
 
               <div class="clearfix"></div>
 

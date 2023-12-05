@@ -1,44 +1,45 @@
 <?php
 
+include_once 'connection.inc.php';
+include_once __DIR__ . '/../lib/validator.lib.php';
+include_once __DIR__ . '/../lib/encrypter.lib.php';
+
 //POST for login
 //runs when the 'login' form is submitted
 //logs user in if input conforms to a user in the database
 //logged in users are sent to profile.php 
-if(isset($_POST['submitLogin'])){
-    $username = $_POST['user'];
-    $password = $_POST['pass'];
-    $errormsg = "";
-
-    $sqlLog = "SELECT * FROM user WHERE username = '$username' AND password = '$password'";
-    $result = mysqli_query($conn, $sqlLog);
-    $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-    $count = mysqli_num_rows($result);
-
-    if($count==1){
-        $_SESSION['username'] = $username;
-        $_SESSION['forename'] = $row['forename'];
-        $_SESSION['surename'] = $row['surename'];
-        $_SESSION['email'] = $row['email'];
-        header("Location:profile.php");
+if(isset($_POST['submitLogin']) && is_string($_POST['email']) && is_string($_POST['password'])){
+    $loginValidator = new Validator;
+    if ($loginValidator->validateEmail($loginValidator->cleanString($_POST['email']))){
+        $email = $loginValidator->cleanString($_POST['email']);
     }
-    else {
-        echo '<script>window.location.href = "index.php"; alert("Login failed. Invalid username or password")</script>';
+    $password = $loginValidator->cleanString($_POST['password']);
+
+    $sqlFetchUser = "SELECT * FROM users WHERE Email = '$email'";
+    $query = $pdo->prepare($sqlFetchUser);
+
+    try {
+        $query->execute();
+    } catch(PDOException $exc){
+        $errormsg = $exc;
     }
+
+    $user = $query->fetch(PDO::FETCH_OBJ);
+
+    if($query->rowCount() == 1){
+        if (password_verify($password, $user->Password)){
+            $_SESSION['firstname'] = $user->FirstName;
+            $_SESSION['lastname'] = $user->LastName;
+            $_SESSION['email'] = $user->Email;
+            $_SESSION['userID'] = $user->UserID;
+            $_SESSION['usertype'] = $user->IsAssistant;
+            header("Location:profile.php");
+        } else {
+            echo '<script>window.location.href = "index.php"; alert("Login failed. Invalid password.")</script>';
+        }
+    } else {
+        echo '<script>window.location.href = "index.php"; alert("Login failed. Invalid e-mail.")</script>';
+    } 
+ 
 }
-
-//POST FOR REGISTER -- under construction
-//runs when the 'register new user' form is submitted
-//sends form data to database, registering a new user
-if(isset($_POST['submitRegister'])){
-    $usernameReg = $_POST['userReg'];
-    $emailReg = $_POST['emailReg'];
-    $passwordReg = $_POST['passReg'];
-    $errormsg = "";
-
-    $sqlReg = "INSERT INTO `user`(`username`, `email`, `password`) VALUES ('$usernameReg', '$emailReg', '$passwordReg' )";
-    $query = mysqli_query($conn, $sqlReg);
-    $_SESSION['username'] = $username;
-    header("Location:profile.php");
-}
-
 ?>

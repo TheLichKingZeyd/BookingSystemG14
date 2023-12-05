@@ -11,31 +11,10 @@ include("login.inc.php");
 
 //Gather session data from login
 //Collects user data into variables for use in html documents
-$username = $_SESSION['username'];
-$forename = $_SESSION['forename'];
-$surename = $_SESSION['surename'];
+$firstName = $_SESSION['firstname'];
+$lastName = $_SESSION['lastname'];
 $email = $_SESSION['email'];
-
-//Require language files in languages
-require get_language_file();
-function get_language_file()
-{
-	$_SESSION['lang'] = $_SESSION['lang'] ?? 'en';
-	$_SESSION['lang'] = $_GET['lang'] ?? $_SESSION['lang'];
-
-
-	return "../www/resources/lan/".$_SESSION['lang'].".php";
-}
-
-//Set __ string to session language
-function __($str)
-{
-	global $lang;
-	if(!empty($lang[$str]))
-	{
-		return $lang[$str];
-	}
-	return $str;
-}
+$userID = $_SESSION['userID'];
+$userType = $_SESSION['usertype'];
 
 ?>

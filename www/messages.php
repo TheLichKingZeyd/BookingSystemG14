@@ -1,7 +1,20 @@
 <!-- Include -->
 <?php
+session_start();
 include("resources/inc/session.inc.php");
+include("resources/inc/language.inc.php");
 include("resources/inc/logout.inc.php");
+
+if (isset($userID)) {
+
+  include 'resources/inc/getAllUsers.inc.php';
+  include 'resources/inc/conversations.inc.php';
+  include 'resources/inc/lastChat.inc.php';
+
+  //Getting User conversations
+  $conversations = getConversation($userID, $pdo);
+  
+}
 ?>
 
 <!DOCTYPE html>
@@ -46,7 +59,7 @@ include("resources/inc/logout.inc.php");
               </div>
               <div class="profile_info">
                 <span><?= __('Welcome!')?></span>
-                <h2><?php echo $username; ?></h2>
+                <h2><?php echo $firstName . " " . $lastName; ?></h2>
               </div>
             </div>
             <!-- /menu profile quick info -->
@@ -74,20 +87,29 @@ include("resources/inc/logout.inc.php");
                   <li><a href="messages.php"><i class="fa fa-comments-o"></i> <?= __('Messages')?></span></a></li>
                 </ul>
               </div>
+
+              <?php  
+                if ($userType){
+              ?>
+
               <div class="menu_section">
                 <h3><?= __('Assisant Teacher tools')?></h3>
                 <ul class="nav side-menu">
                   <li><a href="admin.booking.php" ><i class="fa fa-bug"></i> <?= __('Check bookings')?></a></li>
-                  <li><a href="admin.calendar.php" ><i class="fa fa-calendar"></i> <?= __('Edit Calendar')?></a></li>
+                  <li><a href="availability.php" ><i class="fa fa-calendar"></i> <?= __('Edit Availability')?></a></li>
                 </ul>
               </div>
+
+              <?php
+                }
+              ?>
 
             </div>
             <!-- /sidebar menu -->
 
             <!-- /menu footer buttons -->
             <div class="sidebar-footer hidden-small">
-              <button data-toggle="tooltip" data-placement="top" title="<?= __('Settings')?>">
+              <button onclick="location.href='profile.php';" data-toggle="tooltip" data-placement="top" title="<?= __('Settings')?>">
                 <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
               </button>
               <button onclick="location.href='?lang=en';" data-toggle="tooltip" data-placement="top" title="English">
@@ -117,7 +139,7 @@ include("resources/inc/logout.inc.php");
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <img src="../node_modules/gentelella/production/images/user.png" alt=""><?php echo $username; ?>
+                    <img src="../node_modules/gentelella/production/images/user.png" alt=""><?php echo $firstName . " " . $lastName; ?>
                     <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
@@ -126,69 +148,11 @@ include("resources/inc/logout.inc.php");
                   </ul>
                 </li>
 
-                <li role="presentation" class="dropdown">
-                  <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
+                <li class="">
+                  <a href="messages.php">
                     <i class="fa fa-envelope-o"></i>
-                    <span class="badge bg-green">6</span>
+                    <span class="badge bg-green"></span>
                   </a>
-                  <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
-                    <li>
-                      <a>
-                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                      </a>
-                    </li>
-                    <li>
-                      <a>
-                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                      </a>
-                    </li>
-                    <li>
-                      <a>
-                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                      </a>
-                    </li>
-                    <li>
-                      <a>
-                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                      </a>
-                    </li>
-                    <li>
-                      <div class="text-center">
-                        <a>
-                          <strong>See All Alerts</strong>
-                          <i class="fa fa-angle-right"></i>
-                        </a>
-                      </div>
-                    </li>
-                  </ul>
                 </li>
               </ul>
             </nav>
@@ -204,7 +168,7 @@ include("resources/inc/logout.inc.php");
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Example</h2>
+                    <h2><?= __('Messages')?></h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
@@ -215,6 +179,80 @@ include("resources/inc/logout.inc.php");
                   </div>
                   <div class="x_content">
 
+                  <div class="col-md-4 col-sm-4 col-xs-12 profile_details">
+                    <?php 
+                      foreach($brukere as $bruker) {
+                        if($bruker->UserID != $userID) {
+                          echo '<div class="well profile_view" style="width:100%;">';
+                          echo '<div class="col-sm-12">';
+                          $isAssistant = $bruker->IsAssistant == 1 ? __('Assistant'):"Student";
+                          echo "<h4 class='brief'><i>". $isAssistant . "</i></h4>";
+                          echo '<div class="left col-xs-7">';
+                          echo "<h3>" . $bruker->FirstName . " " . $bruker->LastName ."</h3>";
+                          echo '<ul class="list-unstyled">';
+                          echo "<li><i class='fa fa-envelope-o user-profile-icon'></i> ". __('E-mail') . ": " . $bruker->Email . "</li>";
+                          echo '</ul>';
+                          echo '</div>';
+                          echo '<div class="right col-xs-5 text-center">';
+                          echo '<img src="../node_modules/gentelella/production/images/user.png" alt="" class="img-circle profile_img img-responsive">';
+                          echo '</div>';
+                          echo '</div>';
+                          echo '<div class="col-xs-12 bottom text-center">';
+                          echo '<div class="col-xs-12 col-sm-6 emphasis">';
+                          echo '</div>';
+                          echo '<div class="col-xs-12 col-sm-12 emphasis">';
+                          echo "<a href=chat.php?user=$bruker->UserID>";
+                          echo "<button type='button' class='btn btn-success btn-xs'>";
+                          echo "<i class='fa fa-user'>";
+                          echo "</i> <i class='fa fa-comments-o'></i> " . __('Chat') . "</button>";
+                          echo '</a>';
+                          echo "<a href=profile.other.php?user=$bruker->UserID>";
+                          echo '<button type="button" class="btn btn-primary btn-xs">';
+                          echo '<i class="fa fa-user"> </i> ' . __('View Profile');
+                          echo '</button>';
+                          echo '</a>';
+                          echo '</div>';
+                          echo '</div>';
+                          echo '</div>';
+                        }
+                      }
+                    ?>
+
+                  </div>
+                  
+                  <div class="col-md-8 col-sm-8 col-xs-12">
+                    <div>
+                      <div>
+    			              <div>
+                        <div class="col-sm-12">
+                        <br>
+                        </div>
+
+                        <ul id="chatList" class="list-group mvh-50 overflow-auto"><?php if (!empty($conversations)) { ?>
+
+                        <?php 
+                          foreach ($conversations as $conversation){ ?>
+                          <li class="list-group-item">
+                            <a href="chat.php?user=<?=$conversation['UserID']?>" class="d-flex justify-content-between align-items-center p-2">
+                            <div class="d-flex align-items-center">
+                              <h3 class="fs-xs m-2"><?=$conversation['FirstName']. " " . $conversation['LastName']?><br>
+                              <small>
+                                <?php echo lastChat($userID, $conversation['UserID'], $pdo);?>
+                              </small>
+                            </h3>            	
+                          </div>
+                          </a>
+                        </li>
+                        <?php } ?>
+                        <?php }else{ ?>
+                          <div class="alert alert-info text-center">
+                            <i class="fa fa-comments d-block fs-big"></i> <?= __('No messages yet, Start the conversation')?>
+                          </div>
+                          <?php } ?>
+                        </ul>
+                      </div>
+                    </div>
+                      
                   </div>
                 </div>
               </div>
@@ -222,14 +260,6 @@ include("resources/inc/logout.inc.php");
           </div>
         </div>
         <!-- /page content -->
-
-        <!-- footer content -->
-        <footer>
-          <div class="pull-right">
-          </div>
-          <div class="clearfix"></div>
-        </footer>
-        <!-- /footer content -->
       </div>
     </div>
 
