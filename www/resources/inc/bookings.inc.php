@@ -2,6 +2,7 @@
 
 include_once 'connection.inc.php';
 include_once 'session.inc.php';
+include_once 'mailer.inc.php';
 include_once __DIR__ . '/../lib/booking.lib.php';
 
 $sqlCourses = "SELECT * FROM courseaccess AS a LEFT JOIN courses c ON c.CourseID=a.CourseID WHERE a.UserID= {$_SESSION['userID']}";
@@ -51,7 +52,6 @@ if (isset($_POST['submitBooking']) && is_string($_POST['bookingTitle']) && is_st
 
     $newBooking = new Booking();
     $newBooking->createNewBooking($userID, $bookingAssistant, $bookingCourse, $bookingTitle, $bookingDescription, $bookingStart, $bookingEnd);
-    print_r($newBooking);
 
     $sqlInsertBooking = "INSERT INTO bookings (CreatorID, AssistantID, CourseID, BookingTitle, BookingDescr, BookingStart, BookingEnd) VALUES (:creatorID, :assistantID, :courseID, :title, :description, :startTime, :endTime)";
     $query = $pdo->prepare($sqlInsertBooking);
@@ -65,9 +65,44 @@ if (isset($_POST['submitBooking']) && is_string($_POST['bookingTitle']) && is_st
 
     try {
         $query->execute();
-        echo '<script>window.location.href = "booking.php"; alert("Assistant teacher booked.")</script>';
+        $booked = true;
+        
+        // echo '<script>window.location.href = "booking.php"; alert("Assistant teacher booked.")</script>';
     } catch(PDOException $exc){
         $errormsg = $exc;
+    }
+
+    if ($booked){
+        $sqlFetchAssistant = "SELECT * FROM users WHERE UserID = $newBooking->assistantID";
+        $assistQuery = $pdo->prepare($sqlFetchAssistant);
+
+        try {
+            $assistQuery->execute();
+        } catch(PDOException $exc){
+            $errormsg = $exc;
+        }
+
+        $assistant = $assistQuery->fetch(PDO::FETCH_OBJ);
+
+        $sqlFetchCourse = "SELECT * FROM courses WHERE CourseID = $newBooking->courseID";
+        $courseQuery = $pdo->prepare($sqlFetchCourse);
+
+        try {
+            $courseQuery->execute();
+        } catch(PDOException $exc){
+            $errormsg = $exc;
+        }
+
+        $course = $courseQuery->fetch(PDO::FETCH_OBJ);
+
+        $mailInfo = array();
+        $mailInfo = ["mailType" => "Booking",
+                     "studName" => $_SESSION['firstname'] . " " . $_SESSION['lastname'],
+                     "studEmail" => $_SESSION['email'],
+                     "assistName" => $assistant->FirstName . " " . $assistant->LastName,
+                     "assistEmail" => $assistant->Email,
+                     "course" => $course->CourseCode . " - " . $course->CourseName];
+        sendMails($mailInfo);
     }
 }
 

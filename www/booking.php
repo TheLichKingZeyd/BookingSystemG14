@@ -162,6 +162,7 @@ include("resources/inc/bookings.inc.php");
 
                     <?php 
                     
+                      // if 
                       if (isset($_GET['assistant_id']) && isset($_GET['course_id'])){
                         // 
                         foreach($assistants as $assistant){
