@@ -72,13 +72,17 @@ INSERT INTO `courseaccess` (`CourseID`, `UserID`, `AsAssistant`) VALUES
 ('7', '9', '0');
 
 INSERT INTO `ProfileInfo` (`UserID`, `ProfileExperience`) VALUES 
-('10',''),
-('11',''),
-('12',''),
-('13',''),
-('14',''),
-('15',''),
-('16',''),
-('17',''),
-('18',''),
-('19',''),
+('10','good at back end desgin and data handling , Experienced with organic  chemistry'),
+('11','Good at video editing and sound effects'),
+('12','Kernel developments expertise, worked on linux Kernels'),
+('13','Broad experience with Turin Machines and theoretical computers'),
+('14','Experienced with sound design and after effects, Knowledgable with Turing machines, especially pushdown systems'),
+('15','Deep knowledge aroud operating system design and low level languages, Strong understanding of php compiling'),
+('16','Knowledgable regarding practical real world uses of physics and realistic calculation frameworks'),
+('17','Did research on the  Geo-economic history of Northern Europe and the effects of industrialisation on it'),
+('18','Genral knowledge on European and Asian geography, Good understanding of operating systems theory'),
+('19','practical physics stuff, knows things, seen things');
+
+
+
+
