@@ -63,7 +63,6 @@ if(isset($_POST['submitChange'])) {
         }
 
         $studentBooking = $query->fetch(PDO::FETCH_OBJ);
-        print_r($userBooking);
         $mailInfo = array();
         $mailInfo = ["mailType" => "assistMovedBooking",
                      "assistName" => $_SESSION['firstname'] . " " . $_SESSION['lastname'],
@@ -71,7 +70,7 @@ if(isset($_POST['submitChange'])) {
                      "studEmail" => $studentBooking->Email,
                      "course" => $studentBooking->CourseCode . " - " . $studentBooking->CourseName];
         sendMails($mailInfo);
-        echo '<script>window.location.href = "admin.booking.php";</script>';
+        // echo '<script>window.location.href = "admin.booking.php";</script>';
     }
 }
 
@@ -106,7 +105,7 @@ if(isset($_POST['user_submit_change'])) {
                 try {
                     $execute = $statement->execute($data);
                     $updated = true;
-                    echo '<script>window.location.href = "mybooking.php";</script>';
+                    //echo '<script>window.location.href = "mybooking.php";</script>';
                 
                 } catch (PDOException) {
 
@@ -134,7 +133,7 @@ if(isset($_POST['user_submit_change'])) {
             $errormsg = $exc;
         }
 
-        $assistantBooking = $query->fetch();
+        $assistantBooking = $query->fetch(PDO::FETCH_OBJ);
 
         $mailInfo = array();
         $mailInfo = ["mailType" => "studMovedBooking",
@@ -143,7 +142,7 @@ if(isset($_POST['user_submit_change'])) {
                      "studName" => $_SESSION['firstname'] . " " . $_SESSION['lastname'],
                      "course" => $assistantBooking->CourseCode . " - " . $assistantBooking->CourseName];
         sendMails($mailInfo);
-        echo '<script>window.location.href = "admin.booking.php";</script>';
+        // echo '<script>window.location.href = "admin.booking.php";</script>';
     }
 }
 

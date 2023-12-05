@@ -19,7 +19,7 @@ if(isset($_POST['delete_avail'])) {
 }
 
 // If POST update TIME
-if(isset($_POST['user_submit_change'])) {
+if(isset($_POST['assistant_submit_change'])) {
 
     $ID = $_GET['AvailabilityID'];
     
@@ -31,27 +31,47 @@ if(isset($_POST['user_submit_change'])) {
             if ($_POST['editFrom'] < $_POST['editTo']) {
                 $newStartTime = test_input($_POST['editFrom']);
                 $newEndTime = test_input($_POST['editTo']);
-
-                // QUERY DATABASE TO UPDATE USER INFORMATION
-                $query = "UPDATE Availabilities SET AvailabilityStart=:newstart, AvailabilityEnd=:newend WHERE AvailabilityID=$ID";
-            
-                // Prepare the statements
-                $statement = $pdo->prepare($query);
-
-                // Pass variables into data
-                $data = [
-                    ':newstart' => $newStartTime,
-                    ':newend' => $newEndTime
-                ];
                 
-                // Excecute and pass data into database
+                $oldStart = $_POST['availStart'];
+                $oldEnd = $_POST['availEnd'];
+                echo $oldEnd;
+                echo $oldStart;
+                $sqlDeleteOld = "DELETE * FROM availabilities WHERE (AvailabilityStart >= $oldStart AND AvailabilityEnd <= $oldEnd AND AssistantID=$userID)";
+                $query = $pdo->prepare($sqlDeleteOld);
+
                 try {
-                    $execute = $statement->execute($data);
-                    echo '<script>window.location.href = "availabilityEdit.php";</script>';
-                
+                    $query->execute();
+                    //echo '<script>window.location.href = "availabilityEdit.php";</script>';                    
                 } catch (PDOException) {
-
+    
                 }
+                
+            
+                for ($newStartTime; $newStartTime < $newEndTime; date("Y-m-d H:i:s", strtotime("+30 minutes $newStartTime"))){
+                    $newAvailability = new Availability();
+                    $periodEnd = date('Y-m-d H:i:s', strtotime("+30 minutes $newStartTime"));
+                    $date = date('Y-m-d', strtotime($newStartTime));
+                    $newAvailability->createNewAvailability($userID, $newStartTime, $periodEnd);
+
+
+                    $sqlInsertAvailability = "INSERT INTO availabilities (AssistantID, AvailabilityDate, AvailabilityStart, AvailabilityEnd) VALUES (:assistantID, :availabilityDate, :availablityStart, :availabilityEnd)";
+                    $query = $pdo->prepare($sqlInsertAvailability);
+
+                    $query->bindParam(":assistantID", $newAvailability->assistantID, PDO::PARAM_INT);
+                    $query->bindParam(":availabilityDate", $date, PDO::PARAM_STR);
+                    $query->bindParam(":availablityStart", $newAvailability->availabilityStart, PDO::PARAM_STR);
+                    $query->bindParam(":availabilityEnd", $newAvailability->availabilityEnd, PDO::PARAM_STR);
+
+
+                    try {
+                        $query->execute();
+                        // add some sort of feedback
+                    } catch(PDOException $exc){
+                        $errormsg = $exc;
+                    }
+                    $newStartTime = date('Y-m-d H:i:s', strtotime("+30 minutes $newStartTime"));                    
+                }
+                
             } else {
                 $_messageOutput['message'] ="From must be before to";
             }
