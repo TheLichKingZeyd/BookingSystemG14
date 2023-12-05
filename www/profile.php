@@ -99,8 +99,8 @@ if (isset($userID)) {
               <div class="menu_section">
                 <h3><?= __('Assisant Teacher tools')?></h3>
                 <ul class="nav side-menu">
-                  <li><a href="assistant.bookings.php" ><i class="fa fa-bug"></i> <?= __('Check bookings')?></a></li>
-                  <li><a href="assistant.calendars.php" ><i class="fa fa-calendar"></i> <?= __('Edit Calendar')?></a></li>
+                  <li><a href="admin.booking.php" ><i class="fa fa-bug"></i> <?= __('Check bookings')?></a></li>
+                  <li><a href="admin.calendar.php" ><i class="fa fa-calendar"></i> <?= __('Edit Calendar')?></a></li>
                 </ul>
               </div>
               
@@ -113,7 +113,7 @@ if (isset($userID)) {
 
             <!-- /menu footer buttons -->
             <div class="sidebar-footer hidden-small">
-              <button data-toggle="tooltip" data-placement="top" title="<?= __('Settings')?>">
+              <button onclick="location.href='profile.php';" data-toggle="tooltip" data-placement="top" title="<?= __('Settings')?>">
                 <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
               </button>
               <button onclick="location.href='?lang=en';" data-toggle="tooltip" data-placement="top" title="English">
