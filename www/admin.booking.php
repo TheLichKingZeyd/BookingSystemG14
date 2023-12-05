@@ -275,7 +275,7 @@ if (isset($userID)) {
                             <td>
                               <form method="POST">
                                 <input type="hidden" name="cancelBookID" value="<?= $booking['BookingID'] ?>">
-                              <button type="submit" class="btn btn-danger btn-xs" name="cancelBook"><i class="fa fa-trash-o"></i> <?= __('Cancel ')?></button>
+                              <button type="submit" class="btn btn-danger btn-xs" name="assistantCancelBook"><i class="fa fa-trash-o"></i> <?= __('Cancel ')?></button>
                               </form>
                             </td>
                             <?php } else {?>

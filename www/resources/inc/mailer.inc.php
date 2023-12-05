@@ -138,7 +138,7 @@ function sendBookingCancelationMailToStudent(PHPMailer $mail, array $mailInfo){
         // construct email message for student about confirmed booking
         $message = "Hello " . $mailInfo['studName'] . ".\n\n";
         $message .= "One of your bookings in " . $mailInfo['course'] . ", \n";
-        $message .= "Yhas been canceled by the assistant, " . $mailInfo['assistName'] . ". \n";
+        $message .= "has been canceled by the assistant, " . $mailInfo['assistName'] . ". \n";
         $message .= ""; // ADD BOOKING INFO HERE
         
     
@@ -158,7 +158,7 @@ function sendBookingCancelationMailToAssistant(PHPMailer $mail, array $mailInfo)
 
         // construct email message for student about confirmed booking
         $message = "Hello " . $mailInfo['assistName'] . ".\n\n";
-        $message .= $mailInfo['studName'] . "has moved one of their bookings in " . $mailInfo['course'] . ". \n";
+        $message .= $mailInfo['studName'] . " has canceled one of their bookings in " . $mailInfo['course'] . ". \n";
         $message .= ""; // ADD BOOKING INFO HERE
         
     
