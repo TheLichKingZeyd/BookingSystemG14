@@ -11,12 +11,7 @@ if (isset($userID)) {
   include 'resources/inc/conversations.inc.php';
   include 'resources/inc/lastChat.inc.php';
 
-  //include 'app/helpers/user.php';
-  //include 'app/helpers/conversations.php';
-  //include 'app/helpers/timeAgo.php';
-  //include 'app/helpers/last_chat.php';
-
-  # Getting User conversations
+  //Getting User conversations
   $conversations = getConversation($userID, $pdo);
   
 }

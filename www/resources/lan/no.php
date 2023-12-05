@@ -56,6 +56,22 @@ $lang = [
 	'Submit'=>'Send inn',
 	'Please describe what you need help with, and the place you want it to be held.'=>'Beskriv hva du trenger hjelp med, og hvor du vil at det skal være',
 	'Class:'=>'Klasse:',
+	'Assistant teacher check bookings'=>'Hjelpelærer sjekk bookinger',
+	'Booking Time'=>'Booking Tid',
+	'Course'=>'Klasse',
+	'Title & Description'=>'Tittel & Beskrivelse',
+	'#Edit'=>'#Rediger',
+	'From'=>'Fra',
+	'To'=>'Til',
+	'Cancel '=>'Kanseller',
+	'Edit'=>'Rediger',
+	'Approved'=>'Godkjent',
+	'Cancelled'=>'Kansellert',
+	'Edit booking time'=>'Rediger booking tid',
+	'From Date & Time'=>'Fra Dato & Tid',
+	'To Date & Time'=>'Til Dato & Tid',
+	'#Cancel'=>'#Kanseller',
+	'DELETE'=>'SLETT',
 ];
 
 ?>
