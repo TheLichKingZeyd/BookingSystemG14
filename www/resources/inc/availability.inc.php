@@ -39,32 +39,26 @@ if( $_SERVER['REQUEST_METHOD'] == "POST" ) {
                 $availabilityStart = date('Y-m-d H:i:s', strtotime("$currentDate $startTimeArray[$j]"));
                 $availabilityEnd = date('Y-m-d H:i:s', strtotime("$currentDate $endTimeArray[$j]"));
                 
-                for ($availabilityStart; $availabilityStart < $availabilityEnd; date("Y-m-d H:i:s", strtotime("+30 minutes $availabilityStart"))){
-                    $newAvailability = new Availability();
-                    $periodEnd = date('Y-m-d H:i:s', strtotime("+30 minutes $availabilityStart"));
-                    $date = date('Y-m-d', strtotime($availabilityStart));
-                    $newAvailability->createNewAvailability($assistantID, $availabilityStart, $periodEnd);
+
+                $newAvailability = new Availability();
+                $newAvailability->createNewAvailability($assistantID, $availabilityStart, $availabilityEnd);
 
 
-                    $sqlInsertAvailability = "INSERT INTO availabilities (AssistantID, AvailabilityDate, AvailabilityStart, AvailabilityEnd) VALUES (:assistantID, :availabilityDate, :availablityStart, :availabilityEnd)";
-                    $query = $pdo->prepare($sqlInsertAvailability);
+                $sqlInsertAvailability = "INSERT INTO Availabilities (AssistantID, AvailabilityStart, AvailabilityEnd) VALUES (:assistantID, :availablityStart, :availabilityEnd)";
+                $query = $pdo->prepare($sqlInsertAvailability);
 
-                    $query->bindParam(":assistantID", $newAvailability->assistantID, PDO::PARAM_INT);
-                    $query->bindParam(":availabilityDate", $date, PDO::PARAM_STR);
-                    $query->bindParam(":availablityStart", $newAvailability->availabilityStart, PDO::PARAM_STR);
-                    $query->bindParam(":availabilityEnd", $newAvailability->availabilityEnd, PDO::PARAM_STR);
+                $query->bindParam(":assistantID", $newAvailability->assistantID, PDO::PARAM_INT);
+                $query->bindParam(":availablityStart", $newAvailability->availabilityStart, PDO::PARAM_STR);
+                $query->bindParam(":availabilityEnd", $newAvailability->availabilityEnd, PDO::PARAM_STR);
 
 
-                    try {
-                        $query->execute();
-                        // add some sort of feedback
-                    } catch(PDOException $exc){
-                        $errormsg = $exc;
-                    }
-                    $availabilityStart = date('Y-m-d H:i:s', strtotime("+30 minutes $availabilityStart"));                    
+                try {
+                    $query->execute();
+// add some sort of feedback
+                } catch(PDOException $exc){
+                    $errormsg = $exc;
                 }
                 $availabilitiesAdded++;
-                
             }
 
             $currentDate = date("Y-m-d",strtotime("1 day",strtotime($currentDate)));

@@ -7,7 +7,7 @@ $int = "";
 
 function getAllAvailabilities($userID, $pdo) {
 
-    $sql = "SELECT AvailabilityStart, AvailabilityDate, AvailabilityEnd, AvailabilityID  
+    $sql = "SELECT AvailabilityStart, AvailabilityEnd, AvailabilityID  
     FROM Availabilities 
     WHERE AssistantID=?";
 
@@ -16,11 +16,11 @@ function getAllAvailabilities($userID, $pdo) {
     $querry->execute([$userID]);
  
     if ($querry->rowCount() > 0) {
-         $availabilities = $querry->fetchAll(PDO::FETCH_OBJ);
-         return $availabilities;
+         $user = $querry->fetchAll();
+         return $user;
     }else {
-        $availabilities = [];
-        return $availabilities;
+        $user = [];
+        return $user;
     }
 }
 
