@@ -53,7 +53,7 @@ try {
     CourseID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     CourseCode VARCHAR(50) Not NULL,
     CourseName VARCHAR(150) NOT NULL,
-    CourseNameNo VARCHAR(150) NOT NUL
+    CourseNameNo VARCHAR(150) NOT NULL
   );
   CREATE TABLE IF NOT EXISTS Bookings (
     BookingID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -70,10 +70,10 @@ try {
     CONSTRAINT FK_BookingCourseID FOREIGN KEY (CourseID) REFERENCES Courses(CourseID) ON DELETE CASCADE
 
   );
-  CREATE TABLE IF NOT EXISTS Availabity(
-    AvailibilityID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    AvailibilityStart DATETIME,
-    AvailibilityEnd DATETIME,
+  CREATE TABLE IF NOT EXISTS Availabilities(
+    AvailabilityID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    AvailabilityStart DATETIME,
+    AvailabilityEnd DATETIME,
     AssistantID INT UNSIGNED NOT NULL,
     CONSTRAINT FK_AvailibilityUserID FOREIGN KEY (AssistantID) REFERENCES Users(UserID) ON DELETE CASCADE
   );

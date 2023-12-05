@@ -99,8 +99,10 @@ if (isset($userID)) {
               <div class="menu_section">
                 <h3><?= __('Assisant Teacher tools')?></h3>
                 <ul class="nav side-menu">
+                  
                   <li><a href="admin.booking.php" ><i class="fa fa-bug"></i> <?= __('Check bookings')?></a></li>
                   <li><a href="admin.calendar.php" ><i class="fa fa-calendar"></i> <?= __('Edit Calendar')?></a></li>
+
                 </ul>
               </div>
               
