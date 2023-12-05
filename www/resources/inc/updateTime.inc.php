@@ -1,5 +1,7 @@
 <?php
 
+include 'mailer.inc.php';
+
 $_messageOutput['message'] = "";
 $date_now = date("Y-m-d h:m:s");
 
@@ -32,8 +34,7 @@ if(isset($_POST['submitChange'])) {
                 // Excecute and pass data into database
                 try {
                     $execute = $statement->execute($data);
-                    echo '<script>window.location.href = "admin.booking.php";</script>';
-                
+                    $updated = true;
                 } catch (PDOException) {
 
                 }
@@ -45,6 +46,31 @@ if(isset($_POST['submitChange'])) {
         }
     } else {
         $_messageOutput['message'] ="Input fields are required";
+    }
+
+    if ($updated){
+        $sqlGetStudentInfo = "SELECT * FROM bookings As b
+                              LEFT JOIN users u ON u.UserID=b.CreatorID
+                              LEFT JOIN courses c ON c.CourseID=b.CourseID
+                              WHERE b.BookingID=$ID";
+        $query = $pdo->prepare($sqlGetStudentInfo);
+
+        try {
+            $query->execute();
+        } catch(PDOException $exc){
+            $errormsg = $exc;
+        }
+
+        $userBooking = $query->fetch(PDO::FETCH_OBJ);
+        print_r($userBooking);
+        $mailInfo = array();
+        $mailInfo = ["mailType" => "assistMovedBooking",
+                     "assistName" => $_SESSION['firstname'] . " " . $_SESSION['lastname'],
+                     "studName" => $userBooking->FirstName . " " . $userBooking->LastName,
+                     "studEmail" => $userBooking->Email,
+                     "course" => $userBooking->CourseCode . " - " . $userBooking->CourseName];
+        sendMails($mailInfo);
+        // echo '<script>window.location.href = "admin.booking.php";</script>';
     }
 }
 
@@ -77,6 +103,7 @@ if(isset($_POST['user_submit_change'])) {
                 // Excecute and pass data into database
                 try {
                     $execute = $statement->execute($data);
+                    $updated = true;
                     echo '<script>window.location.href = "mybooking.php";</script>';
                 
                 } catch (PDOException) {
@@ -90,6 +117,31 @@ if(isset($_POST['user_submit_change'])) {
         }
     } else {
         $_messageOutput['message'] ="Input fields are required";
+    }
+
+    if ($updated){
+        $sqlGetAssistantInfo = "SELECT * FROM bookings As b
+                              LEFT JOIN users u ON b.AssistantID=u.UserID
+                              LEFT JOIN courses c ON c.CourseID=b.CourseID
+                              WHERE b.BookingID=$ID";
+        $query = $pdo->prepare($sqlGetAssistantInfo);
+
+        try {
+            $query->execute();
+        } catch(PDOException $exc){
+            $errormsg = $exc;
+        }
+
+        $userBooking = $query->fetch();
+
+        $mailInfo = array();
+        $mailInfo = ["mailType" => "studMovedBooking",
+                     "assistName" => $userBooking->FirstName . " " . $userBooking->LastName,
+                     "assistEmail" => $userBooking->Email,
+                     "studName" => $_SESSION['firstname'] . " " . $_SESSION['lastname'],
+                     "course" => $userBooking->CourseCode . " - " . $userBooking->CourseName];
+        sendMails($mailInfo);
+        // echo '<script>window.location.href = "admin.booking.php";</script>';
     }
 }
 

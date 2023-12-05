@@ -45,12 +45,12 @@ function sendMails(array $mailInfo){
     }
 
     // send mail to assistant when student moves booking
-    if ($mailInfo['mailType'] == "studMovedBooking"){
+    if ($mailInfo['mailType'] == "assistMovedBooking"){
         sendBookingMovedMailToStudent($mail, $mailInfo);
     }
 
     // send mail to student when assistant moves booking
-    if ($mailInfo['mailType'] == "assistMovedBooking"){
+    if ($mailInfo['mailType'] == "studMovedBooking"){
         sendBookingMovedMailToAssistant($mail, $mailInfo);
     }
 
@@ -64,14 +64,14 @@ function sendUserRegistrationMail(PHPMailer $mail, array $mailInfo){
         $mail->Subject = "New User";
 
         // construct email message for user about newly registered account
-        $regMessage = "Hello " . $mailInfo['userName'] . ".\n\n";
-        $regMessage .= "Your new user has been registered. \n";
-        $regMessage .= "You will now be able to log in with your e-mail and your password. \n";
-        $regMessage .= "Once you've logged in, we recommend you to go to your user profile and \n" . "add the classes you are taking. \n\n";
-        $regMessage .= "Good luck, and have fun!";
+        $message = "Hello " . $mailInfo['userName'] . ".\n\n";
+        $message .= "Your new user has been registered. \n";
+        $message .= "You will now be able to log in with your e-mail and your password. \n";
+        $message .= "Once you've logged in, we recommend you to go to your user profile and \n" . "add the classes you are taking. \n\n";
+        $message .= "Good luck, and have fun!";
     
         // send email to new user
-        $mail->Body = $regMessage;
+        $mail->Body = $message;
         $mail->send();
     } catch(Exception $exc){
         // echo "<script>window.location.href = 'booking.php'; alert('Mail not sent'" . $exc->getMessage() . ")</script>";
@@ -85,14 +85,14 @@ function sendBookingConfirmationMailsStudent(PHPMailer $mail, array $mailInfo){
         $mail->Subject = "Booking confirmation";
 
         // construct email message for student about confirmed booking
-        $studMessage = "Hello " . $mailInfo['studName'] . ".\n\n";
-        $studMessage .= "We have recieved your request for help from an assistant teacher. \n";
-        $studMessage .= "You've chosen assistant teacher, " . $mailInfo['assistName'] . ", in " . $mailInfo['course'] . ". \n";
-        $studMessage .= "The booking has been registered in the system.";
+        $message = "Hello " . $mailInfo['studName'] . ".\n\n";
+        $message .= "We have recieved your request for help from an assistant teacher. \n";
+        $message .= "You've chosen assistant teacher, " . $mailInfo['assistName'] . ", in " . $mailInfo['course'] . ". \n";
+        $message .= "The booking has been registered in the system.";
         
     
         // send email to student
-        $mail->Body = $studMessage;
+        $mail->Body = $message;
         $mail->send();
     } catch(Exception $exc){
         echo "<script>window.location.href = 'booking.php'; alert('Mail not sent'" . $exc->getMessage() . ")</script>";
@@ -117,12 +117,12 @@ function sendBookingConfirmationMailsAssistant(array $mailInfo){
         $mail->Subject = "Booking confirmation";
 
         // construct email message for assistant about new booking
-        $assistMessage = "Hello " . $mailInfo['assistName'] . ".\n\n";
-        $assistMessage .= "A student, " . $mailInfo['studName'] . " in " . $mailInfo['course'] . " has booked you for help.\n";
-        $assistMessage .= "You can find the booking in your calendar.";
+        $message = "Hello " . $mailInfo['assistName'] . ".\n\n";
+        $message .= "A student, " . $mailInfo['studName'] . " in " . $mailInfo['course'] . " has booked you for help.\n";
+        $message .= "You can find the booking in your calendar.";
     
         // send email to assistant
-        $mail->Body = $assistMessage;
+        $mail->Body = $message;
         $mail->send();
     } catch(Exception $exc){
         echo "<script>window.location.href = 'booking.php'; alert('Mail not sent'" . $exc->getMessage() . ")</script>";
@@ -136,14 +136,14 @@ function sendBookingCancelationMailToStudent(PHPMailer $mail, array $mailInfo){
         $mail->Subject = "Booking canceled";
 
         // construct email message for student about confirmed booking
-        $studMessage = "Hello " . $mailInfo['studName'] . ".\n\n";
-        $studMessage .= "One of your bookings in " . $mailInfo['course'] . ", \n";
-        $studMessage .= "Yhas been canceled by the assistant, " . $mailInfo['assistName'] . ". \n";
-        $studMessage .= ""; // ADD BOOKING INFO HERE
+        $message = "Hello " . $mailInfo['studName'] . ".\n\n";
+        $message .= "One of your bookings in " . $mailInfo['course'] . ", \n";
+        $message .= "Yhas been canceled by the assistant, " . $mailInfo['assistName'] . ". \n";
+        $message .= ""; // ADD BOOKING INFO HERE
         
     
         // send email to student
-        $mail->Body = $studMessage;
+        $mail->Body = $message;
         $mail->send();
     } catch(Exception $exc){
         echo "<script>window.location.href = 'booking.php'; alert('Mail not sent'" . $exc->getMessage() . ")</script>";
@@ -157,13 +157,13 @@ function sendBookingCancelationMailToAssistant(PHPMailer $mail, array $mailInfo)
         $mail->Subject = "Booking canceled";
 
         // construct email message for student about confirmed booking
-        $studMessage = "Hello " . $mailInfo['assistName'] . ".\n\n";
-        $studMessage .= $mailInfo['studName'] . "has moved one of their bookings in " . $mailInfo['course'] . ". \n";
-        $studMessage .= ""; // ADD BOOKING INFO HERE
+        $message = "Hello " . $mailInfo['assistName'] . ".\n\n";
+        $message .= $mailInfo['studName'] . "has moved one of their bookings in " . $mailInfo['course'] . ". \n";
+        $message .= ""; // ADD BOOKING INFO HERE
         
     
         // send email to student
-        $mail->Body = $studMessage;
+        $mail->Body = $message;
         $mail->send();
     } catch(Exception $exc){
         echo "<script>window.location.href = 'booking.php'; alert('Mail not sent'" . $exc->getMessage() . ")</script>";
@@ -177,13 +177,13 @@ function sendBookingMovedMailToStudent(PHPMailer $mail, array $mailInfo){
         $mail->Subject = "Booking moved";
 
         // construct email message for student about confirmed booking
-        $studMessage = "Hello " . $mailInfo['studName'] . ".\n\n";
-        $studMessage .= $mailInfo['assistName'] . "has moved one of your bookings in " . $mailInfo['course'] . ". \n";
-        $studMessage .= ""; // ADD BOOKING INFO HERE
+        $message = "Hello " . $mailInfo['studName'] . ".\n\n";
+        $message .= $mailInfo['assistName'] . " has moved one of your bookings in " . $mailInfo['course'] . ". \n";
+        $message .= ""; // ADD BOOKING INFO HERE
         
     
         // send email to student
-        $mail->Body = $studMessage;
+        $mail->Body = $message;
         $mail->send();
     } catch(Exception $exc){
         echo "<script>window.location.href = 'booking.php'; alert('Mail not sent'" . $exc->getMessage() . ")</script>";
@@ -197,13 +197,13 @@ function sendBookingMovedMailToAssistant(PHPMailer $mail, array $mailInfo){
         $mail->Subject = "Booking moved";
 
         // construct email message for student about confirmed booking
-        $studMessage = "Hello " . $mailInfo['assistName'] . ".\n\n";
-        $studMessage .= $mailInfo['studName'] . "has moved one of their bookings in " . $mailInfo['course'] . ". \n";
-        $studMessage .= ""; // ADD BOOKING INFO HERE
+        $message = "Hello " . $mailInfo['assistName'] . ".\n\n";
+        $message .= $mailInfo['studName'] . " has moved one of their bookings in " . $mailInfo['course'] . ". \n";
+        $message .= ""; // ADD BOOKING INFO HERE
         
     
         // send email to student
-        $mail->Body = $studMessage;
+        $mail->Body = $message;
         $mail->send();
     } catch(Exception $exc){
         echo "<script>window.location.href = 'booking.php'; alert('Mail not sent'" . $exc->getMessage() . ")</script>";
