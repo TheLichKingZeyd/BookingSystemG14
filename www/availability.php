@@ -233,7 +233,7 @@ if (isset($userID)) {
                         <input type="hidden" name="SkipDay6" value="1";>
                         <input type="hidden" name="SkipDay7" value="1";>
 
-                        <strong>Day 1 </strong>
+                        <strong><?= __('Day ')?>1 </strong>
                         <label for="Date1"><?= __('Select the first day to be added')?>:</label>
                         <input type="date" name="Date1" min="<?= date('Y-m-d'); ?>" required> 
                         <label for="StartTime1"><?= __('Start time')?>:</label>
@@ -241,7 +241,7 @@ if (isset($userID)) {
                         <label for="EndTime1"><?= __('End time')?>: </label>
                         <input type="time" name="EndTime1" min="05:00" max="22:00" required> <strong><?= __('Mandatory')?></strong>
                         
-                        <br><br> <strong>Day 2</strong>
+                        <br><br> <strong><?= __('Day ')?>2</strong>
 
                         <label for="StartTime2"><?= __('Start time')?>:</label>
                         <input type="time" name="StartTime2" min="05:00" max="22:00"> 
@@ -250,7 +250,7 @@ if (isset($userID)) {
                         <label for="SkipDay2">&nbsp;&nbsp;<?= __('Tick to skip day')?> 2 :</label>
                         <input type="checkbox" name="SkipDay2" value="0">
 
-                        <br><br> <strong>Day 3</strong>
+                        <br><br> <strong><?= __('Day ')?>3</strong>
 
                         <label for="StartTime3"><?= __('Start time')?>:</label>
                         <input type="time" name="StartTime3" min="05:00" max="22:00"> 
@@ -259,7 +259,7 @@ if (isset($userID)) {
                         <label for="SkipDay3">&nbsp;&nbsp;<?= __('Tick to skip day')?> 3 :</label>
                         <input type="checkbox" name="SkipDay3" value="0">
 
-                        <br><br> <strong>Day 4</strong>
+                        <br><br> <strong><?= __('Day ')?>4</strong>
 
                         <label for="StartTime4"><?= __('Start time')?>:</label>
                         <input type="time" name="StartTime4" min="05:00" max="22:00"> 
@@ -268,7 +268,7 @@ if (isset($userID)) {
                         <label for="SkipDay4">&nbsp;&nbsp;<?= __('Tick to skip day')?> 4 :</label>
                         <input type="checkbox" name="SkipDay4" value="0" >
 
-                        <br><br> <strong>Day 5</strong>
+                        <br><br> <strong><?= __('Day ')?>5</strong>
 
                         <label for="StartTime5"><?= __('Start time')?>:</label>
                         <input type="time" name="StartTime5" min="05:00" max="22:00"> 
@@ -277,7 +277,7 @@ if (isset($userID)) {
                         <label for="SkipDay5">&nbsp;&nbsp;<?= __('Tick to skip day')?> 5 :</label>
                         <input type="checkbox" name="SkipDay5" value="0" >
 
-                        <br><br> <strong>Day 6</strong>
+                        <br><br> <strong><?= __('Day ')?>6</strong>
 
                         <label for="StartTime6"><?= __('Start time')?>:</label>
                         <input type="time" name="StartTime6" min="05:00" max="22:00"> 
@@ -286,7 +286,7 @@ if (isset($userID)) {
                         <label for="SkipDay6">&nbsp;&nbsp;<?= __('Tick to skip day')?> 6 :</label>
                         <input type="checkbox" name="SkipDay6" value="0" >
 
-                        <br><br> <strong>Day 7</strong>
+                        <br><br> <strong><?= __('Day ')?>7</strong>
 
                         <label for="StartTime7"><?= __('Start time')?>:</label>
                         <input type="time" name="StartTime7" min="05:00" max="22:00"> 
