@@ -221,8 +221,22 @@ if (isset($userID)) {
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2><?= __('Availability Editing')?></h2>
-                    <br><br><br><br>
+                  <h2><?= __('Availability Editing')?></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+
+                  
+                <button class="btn btn-info" onclick="window.location.href='availabilityEdit.php'"><?= __('Edit existing availabilities')?></button>
+
+                <h3><?= __('Add New Availabilities')?></h3>
+                  
                     <div>
                         <form method="post" action="">
 
@@ -286,7 +300,7 @@ if (isset($userID)) {
                         <label for="SkipDay6">&nbsp;&nbsp;<?= __('Tick to skip day')?> 6 :</label>
                         <input type="checkbox" name="SkipDay6" value="0" >
 
-                        <br><br> <strong><?= __('Day ')?>7</strong>
+                        <br><br> <strong>Day 7</strong>
 
                         <label for="StartTime7"><?= __('Start time')?>:</label>
                         <input type="time" name="StartTime7" min="05:00" max="22:00"> 
@@ -302,16 +316,7 @@ if (isset($userID)) {
                         <input type="submit" />
                         </form>
                     </div>
-                    <ul class="nav navbar-right panel_toolbox">
-                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                      </li>
-                      <li><a class="close-link"><i class="fa fa-close"></i></a>
-                      </li>
-                    </ul>
-                    <div class="clearfix"></div>
                   </div>
-                  <div class="x_content">
-
                   </div>
                 </div>
               </div>
@@ -327,8 +332,6 @@ if (isset($userID)) {
           <div class="clearfix"></div>
         </footer>
         <!-- /footer content -->
-      </div>
-    </div>
 
     <!-- script to prevent resubmission of the forms on page refresh -->
     <script>

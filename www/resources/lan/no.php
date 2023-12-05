@@ -78,6 +78,13 @@ $lang = [
 	'To Date & Time'=>'Til Dato & Tid',
 	'#Cancel'=>'#Kanseller',
 	'DELETE'=>'SLETT',
+	'My availabilities'=>'Mine Tilgjengelighet',
+	'Availability Start'=>'Tilgjengelighet start',
+	'Availability End'=>'Tilgjengelighet slutt',
+	'Edit availability time'=>' Rediger tilgjengelighet tid',
+	'Add New Availabilities'=>'Legg til nye tilgjengeligheter',
+	'Edit existing availabilities'=>'Rediger eksisterende tilgjengeligheter',
+
 ];
 
 ?>
