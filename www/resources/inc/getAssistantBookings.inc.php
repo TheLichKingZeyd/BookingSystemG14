@@ -1,4 +1,4 @@
-<?php  
+<?php
 
 // Get bookings where AssistantID = userID
 function getAssistantBookings($userID, $pdo){
