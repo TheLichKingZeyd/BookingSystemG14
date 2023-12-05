@@ -38,6 +38,13 @@ $lang = [
 	'Save changes'=>'Lagre Endringer',
 	'Close'=>'Lukk',
 	'Edit password'=>'Endre passord',
+	'Availability Editing'=>'Tilgjengelighet redigering',
+	'Mandatory'=>'nødvendig',
+	'Select the first day to be added'=>'Velg den første dagen som legges til',
+	'How many weeks?'=>'antal uker',
+	'Tick to skip day'=>'Kryss for å hoppe over dagen',
+
+	
 ];
 
 ?>

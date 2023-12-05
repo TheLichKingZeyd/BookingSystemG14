@@ -15,12 +15,13 @@ if( $_SERVER['REQUEST_METHOD'] == "POST" ) {
     $assistantID = $userID;
     $numberOfWeeks = $_POST["NumberOfWeeks"];
     $startDate = $_POST["Date1"];
+    $availabilitiesAdded = 0;
 
     $startTimeArray = array($_POST["StartTime1"],$_POST["StartTime2"],$_POST["StartTime3"],$_POST["StartTime4"],$_POST["StartTime5"],$_POST["StartTime6"],$_POST["StartTime7"]);
     $endTimeArray = array($_POST["EndTime1"], $_POST["EndTime2"], $_POST["EndTime3"], $_POST["EndTime4"], $_POST["EndTime5"], $_POST["EndTime6"], $_POST["EndTime7"]);
     $skipDayArray = array('1',$_POST["SkipDay2"], $_POST["SkipDay3"], $_POST["SkipDay4"], $_POST["SkipDay5"], $_POST["SkipDay6"], $_POST["SkipDay7"] );
 
-    print_r($skipDayArray);
+
 
 //might be unecessary, check later and remove if possible
     $currentDate = $startDate;
@@ -53,17 +54,17 @@ if( $_SERVER['REQUEST_METHOD'] == "POST" ) {
 
                 try {
                     $query->execute();
-                    echo "availability set";
+// add some sort of feedback
                 } catch(PDOException $exc){
                     $errormsg = $exc;
                 }
+                $availabilitiesAdded++;
             }
 
             $currentDate = date("Y-m-d",strtotime("1 day",strtotime($currentDate)));
         }
     }
-
-
+    echo $availabilitiesAdded."availabilities added";
 }
 
 

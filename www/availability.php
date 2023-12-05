@@ -221,7 +221,7 @@ if (isset($userID)) {
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>availability settings</h2>
+                    <h2><?= __('Availability Editing')?></h2>
                     <br><br><br><br>
                     <div>
                         <form method="post" action="">
@@ -234,70 +234,70 @@ if (isset($userID)) {
                         <input type="hidden" name="SkipDay7" value="1";>
 
                         <strong>Day 1 </strong>
-                        <label for="Date1">Select the date of the first day:</label>
+                        <label for="Date1"><?= __('Select the first day to be added')?>:</label>
                         <input type="date" name="Date1" min="<?= date('Y-m-d'); ?>" required> 
-                        <label for="StartTime1">Start time:</label>
+                        <label for="StartTime1"><?= __('Start time')?>:</label>
                         <input type="time" name="StartTime1" min="05:00" max="22:00" required> 
-                        <label for="EndTime1">End time: </label>
-                        <input type="time" name="EndTime1" min="05:00" max="22:00" required> <strong>(Mandatory)</strong>
+                        <label for="EndTime1"><?= __('End time')?>: </label>
+                        <input type="time" name="EndTime1" min="05:00" max="22:00" required> <strong><?= __('Mandatory')?></strong>
                         
                         <br><br> <strong>Day 2</strong>
 
-                        <label for="StartTime2">Start time:</label>
+                        <label for="StartTime2"><?= __('Start time')?>:</label>
                         <input type="time" name="StartTime2" min="05:00" max="22:00"> 
-                        <label for="EndTime2">End time: </label>
+                        <label for="EndTime2"><?= __('End time')?>: </label>
                         <input type="time" name="EndTime2" min="05:00" max="22:00">
-                        <label for="SkipDay2">&nbsp;&nbsp;Check to skip day 2 :</label>
+                        <label for="SkipDay2">&nbsp;&nbsp;<?= __('Tick to skip day')?> 2 :</label>
                         <input type="checkbox" name="SkipDay2" value="0">
 
                         <br><br> <strong>Day 3</strong>
 
-                        <label for="StartTime3">Start time:</label>
+                        <label for="StartTime3"><?= __('Start time')?>:</label>
                         <input type="time" name="StartTime3" min="05:00" max="22:00"> 
-                        <label for="EndTime3">End time: </label>
+                        <label for="EndTime3"><?= __('End time')?>: </label>
                         <input type="time" name="EndTime3" min="05:00" max="22:00">
-                        <label for="SkipDay3">&nbsp;&nbsp;Check to skip day 3 :</label>
+                        <label for="SkipDay3">&nbsp;&nbsp;<?= __('Tick to skip day')?> 3 :</label>
                         <input type="checkbox" name="SkipDay3" value="0">
 
                         <br><br> <strong>Day 4</strong>
 
-                        <label for="StartTime4">Start time:</label>
+                        <label for="StartTime4"><?= __('Start time')?>:</label>
                         <input type="time" name="StartTime4" min="05:00" max="22:00"> 
-                        <label for="EndTime4">End time: </label>
+                        <label for="EndTime4"><?= __('End time')?>: </label>
                         <input type="time" name="EndTime4" min="05:00" max="22:00">
-                        <label for="SkipDay4">&nbsp;&nbsp;Check to skip day 4 :</label>
+                        <label for="SkipDay4">&nbsp;&nbsp;<?= __('Tick to skip day')?> 4 :</label>
                         <input type="checkbox" name="SkipDay4" value="0" >
 
                         <br><br> <strong>Day 5</strong>
 
-                        <label for="StartTime5">Start time:</label>
+                        <label for="StartTime5"><?= __('Start time')?>:</label>
                         <input type="time" name="StartTime5" min="05:00" max="22:00"> 
-                        <label for="EndTime5">End time: </label>
+                        <label for="EndTime5"><?= __('End time')?>: </label>
                         <input type="time" name="EndTime5" min="05:00" max="22:00">
-                        <label for="SkipDay5">&nbsp;&nbsp;Check to skip day 5 :</label>
+                        <label for="SkipDay5">&nbsp;&nbsp;<?= __('Tick to skip day')?> 5 :</label>
                         <input type="checkbox" name="SkipDay5" value="0" >
 
                         <br><br> <strong>Day 6</strong>
 
-                        <label for="StartTime6">Start time:</label>
+                        <label for="StartTime6"><?= __('Start time')?>:</label>
                         <input type="time" name="StartTime6" min="05:00" max="22:00"> 
-                        <label for="EndTime6">End time: </label>
+                        <label for="EndTime6"><?= __('End time')?>: </label>
                         <input type="time" name="EndTime6" min="05:00" max="22:00">
-                        <label for="SkipDay6">&nbsp;&nbsp;Check to skip day 6 :</label>
+                        <label for="SkipDay6">&nbsp;&nbsp;<?= __('Tick to skip day')?> 6 :</label>
                         <input type="checkbox" name="SkipDay6" value="0" >
 
                         <br><br> <strong>Day 7</strong>
 
-                        <label for="StartTime7">Start time:</label>
+                        <label for="StartTime7"><?= __('Start time')?>:</label>
                         <input type="time" name="StartTime7" min="05:00" max="22:00"> 
-                        <label for="EndTime7">End time: </label>
+                        <label for="EndTime7"><?= __('End time')?>: </label>
                         <input type="time" name="EndTime7" min="05:00" max="22:00">
-                        <label for="SkipDay7">&nbsp;&nbsp;Check to skip day 7 :</label>
+                        <label for="SkipDay7">&nbsp;&nbsp;<?= __('Tick to skip day')?> 7 :</label>
                         <input type="checkbox" name="SkipDay7" value="0" >
 
                         <br><br>
 
-                        <label for="HowManyWeeks"> How many weeks? </form>
+                        <label for="HowManyWeeks"> <?= __('How many weeks?')?> </form>
                         <input type="number" name="NumberOfWeeks" min="1" max="22" value="1">
                         <input type="submit" />
                         </form>
@@ -330,6 +330,12 @@ if (isset($userID)) {
       </div>
     </div>
 
+    <!-- script to prevent resubmission of the forms on page refresh -->
+    <script>
+    if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
+</script>
     <!-- jQuery -->
     <script src="../node_modules/gentelella/vendors/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap -->
